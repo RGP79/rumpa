@@ -3,6 +3,7 @@
 #include <string.h>
 #include <curl/curl.h>
 #include "../../cJSON/cJSON.h"
+#define MAX_SIZE 20
 
 typedef struct _Memory
 {
@@ -284,11 +285,11 @@ end:
     return a;
 }
 
-void wypisz(char plansza[20][20]){
+void wypisz(char plansza[MAX_SIZE][MAX_SIZE]){
     int i, j;
 
-    for(i=0;i<20;i++){
-        for(j=0;j<20;j++){
+    for(i=0;i<MAX_SIZE;i++){
+        for(j=0;j<MAX_SIZE;j++){
             printf("%2c",plansza[i][j]);
         }
         printf("\n");
@@ -296,12 +297,12 @@ void wypisz(char plansza[20][20]){
 
 }
 
-void zapisz(char plansza[20][20]){
+void zapisz(char plansza[MAX_SIZE][MAX_SIZE]){
     FILE *fout = fopen("plansza.txt", "w");
     int i, j;
 
-    for(i=0;i<20;i++){
-        for(j=0;j<20;j++){
+    for(i=0;i<MAX_SIZE;i++){
+        for(j=0;j<MAX_SIZE;j++){
             fprintf(fout, "%c", plansza[i][j]);
         }
         fprintf(fout, "\n");
@@ -309,14 +310,14 @@ void zapisz(char plansza[20][20]){
     fclose(fout);
 }
 
-void wczytaj(char plansza[20][20]){
+void wczytaj(char plansza[MAX_SIZE][MAX_SIZE]){
     FILE *fin = fopen("plansza.txt", "r");
     if(fin != NULL){
         int i, j;
-        char bufor[22];
-        for(i=0;i<20;i++){
-            fgets(bufor, 22, fin);
-            for(j=0;j<20;j++){
+        char bufor[MAX_SIZE+2];
+        for(i=0;i<MAX_SIZE;i++){
+            fgets(bufor, MAX_SIZE+2, fin);
+            for(j=0;j<MAX_SIZE;j++){
                 plansza[i][j]=bufor[j];
             }
         }
@@ -339,11 +340,11 @@ int main(int argc, char **argv)
     char *exp="E";
     char *res="reset";
     token=argv[1];
-    char plansza[20][20];
+    char plansza[MAX_SIZE][MAX_SIZE];
     int i,j;
-    for(i=0;i<20;i++)
+    for(i=0;i<MAX_SIZE;i++)
     {
-        for(j=0;j<20;j++)
+        for(j=0;j<MAX_SIZE;j++)
         {
             plansza[i][j]='*';
         }
@@ -369,11 +370,11 @@ int main(int argc, char **argv)
                 printf("y: %d\n",field->y);
                 printf("Typ pola: %s\n",field->type);
                 if(strcmp(field->type, "grass")==0)
-                    plansza[19-field->y][field->x]='G';
+                    plansza[MAX_SIZE-1-field->y][field->x]='G';
                 if(strcmp(field->type, "sand")==0)
-                    plansza[19-field->y][field->x]='S';
+                    plansza[MAX_SIZE-1-field->y][field->x]='S';
                 if(strcmp(field->type, "wall")==0)
-                    plansza[19-field->y][field->x]='W';
+                    plansza[MAX_SIZE-1-field->y][field->x]='W';
 
                 wypisz(plansza);
                 free(field->type);
@@ -403,23 +404,23 @@ int main(int argc, char **argv)
                 printf("y_2: %d\n",obszare->y[2]);
                 printf("Typ pola 2: %s\n",obszare->type[2]);
                 if(strcmp(obszare->type[0], "grass")==0)
-                    plansza[19-obszare->y[0]][obszare->x[0]]='G';
+                    plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='G';
                 if(strcmp(obszare->type[1], "grass")==0)
-                    plansza[19-obszare->y[1]][obszare->x[1]]='G';
+                    plansza[MAX_SIZE-1-obszare->y[1]][obszare->x[1]]='G';
                 if(strcmp(obszare->type[2], "grass")==0)
-                    plansza[19-obszare->y[2]][obszare->x[2]]='G';
+                    plansza[MAX_SIZE-1-obszare->y[2]][obszare->x[2]]='G';
                 if(strcmp(obszare->type[0], "sand")==0)
-                    plansza[19-obszare->y[0]][obszare->x[0]]='S';
+                    plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='S';
                 if(strcmp(obszare->type[1], "sand")==0)
-                    plansza[19-obszare->y[1]][obszare->x[1]]='S';
+                    plansza[MAX_SIZE-1-obszare->y[1]][obszare->x[1]]='S';
                 if(strcmp(obszare->type[2], "sand")==0)
-                    plansza[19-obszare->y[2]][obszare->x[2]]='S';
+                    plansza[MAX_SIZE-1-obszare->y[2]][obszare->x[2]]='S';
                 if(strcmp(obszare->type[0], "wall")==0)
-                    plansza[19-obszare->y[0]][obszare->x[0]]='W';
+                    plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='W';
                 if(strcmp(obszare->type[1], "wall")==0)
-                    plansza[19-obszare->y[1]][obszare->x[1]]='W';
+                    plansza[MAX_SIZE-1-obszare->y[1]][obszare->x[1]]='W';
                 if(strcmp(obszare->type[2], "wall")==0)
-                    plansza[19-obszare->y[2]][obszare->x[2]]='W';
+                    plansza[MAX_SIZE-1-obszare->y[2]][obszare->x[2]]='W';
 
                 wypisz(plansza);
                 zapisz(plansza);
@@ -438,11 +439,11 @@ int main(int argc, char **argv)
                 printf("y: %d\n",field->y);
                 printf("Typ pola: %s\n",field->type);
                 if(strcmp(field->type, "grass")==0)
-                    plansza[19-field->y][field->x]='G';
+                    plansza[MAX_SIZE-1-field->y][field->x]='G';
                 if(strcmp(field->type, "sand")==0)
-                    plansza[19-field->y][field->x]='S';
+                    plansza[MAX_SIZE-1-field->y][field->x]='S';
                 if(strcmp(field->type, "wall")==0)
-                    plansza[19-field->y][field->x]='W';
+                    plansza[MAX_SIZE-1-field->y][field->x]='W';
 
                 wypisz(plansza);
                 zapisz(plansza);
