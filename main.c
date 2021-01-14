@@ -403,18 +403,26 @@ int main(int argc, char **argv)
                 printf("x_2: %d\n",obszare->x[2]);
                 printf("y_2: %d\n",obszare->y[2]);
                 printf("Typ pola 2: %s\n",obszare->type[2]);
-                if(strcmp(obszare->type[0], "grass")==0)
-                    plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='G';
-                if(strcmp(obszare->type[1], "grass")==0)
-                    plansza[MAX_SIZE-1-obszare->y[1]][obszare->x[1]]='G';
-                if(strcmp(obszare->type[2], "grass")==0)
-                    plansza[MAX_SIZE-1-obszare->y[2]][obszare->x[2]]='G';
-                if(strcmp(obszare->type[0], "sand")==0)
-                    plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='S';
-                if(strcmp(obszare->type[1], "sand")==0)
-                    plansza[MAX_SIZE-1-obszare->y[1]][obszare->x[1]]='S';
-                if(strcmp(obszare->type[2], "sand")==0)
-                    plansza[MAX_SIZE-1-obszare->y[2]][obszare->x[2]]='S';
+                for (int i = 0, i<3; i++){
+                    if(strcmp(obszare->type[i], "grass")==0)
+                    plansza[MAX_SIZE-1-obszare->y[i]][obszare->x[i]]='G';
+                    if(strcmp(obszare->type[i], "sand")==0)
+                    plansza[MAX_SIZE-1-obszare->y[i]][obszare->x[i]]='S';
+                    if(strcmp(obszare->type[i], "wall")==0)
+                    plansza[MAX_SIZE-1-obszare->y[i]][obszare->x[i]]='W';
+                }
+                // if(strcmp(obszare->type[0], "grass")==0)
+                //     plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='G';
+                // if(strcmp(obszare->type[1], "grass")==0)
+                //     plansza[MAX_SIZE-1-obszare->y[1]][obszare->x[1]]='G';
+                // if(strcmp(obszare->type[2], "grass")==0)
+                //     plansza[MAX_SIZE-1-obszare->y[2]][obszare->x[2]]='G';
+                // if(strcmp(obszare->type[0], "sand")==0)
+                //     plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='S';
+                // if(strcmp(obszare->type[1], "sand")==0)
+                //     plansza[MAX_SIZE-1-obszare->y[1]][obszare->x[1]]='S';
+                // if(strcmp(obszare->type[2], "sand")==0)
+                //     plansza[MAX_SIZE-1-obszare->y[2]][obszare->x[2]]='S';
                 if(strcmp(obszare->type[0], "wall")==0)
                     plansza[MAX_SIZE-1-obszare->y[0]][obszare->x[0]]='W';
                 if(strcmp(obszare->type[1], "wall")==0)

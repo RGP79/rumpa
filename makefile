@@ -1,5 +1,5 @@
 all:
-	cc main.c -o main -lcurl ../../cJSON/cJSON.o
+	cc main.c -o main -lcurl ../cJSON/cJSON.o
 
 test: all
 	./main qwerty_22
