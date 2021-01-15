@@ -1,5 +1,5 @@
 all:
-	cc main.c -o main -lcurl ../cJSON/cJSON.o
+	cc main.c -o main -lcurl ../../cJSON/cJSON.o
 
 test: all
 	./main qwerty_22
@@ -17,10 +17,13 @@ test-rotL:
 	./main qwerty_22 Rleft
 
 test-reset:
-	./main qwerty_22 reset
+	./main qwerty_22 reset reset
+
+test-gra:
+	valgrind ./main qwerty_22 E M E M E M E M E M E M E M E M E M E
 
 test-memory:
-	valgrind ./main qwerty22
+	valgrind ./main qwerty_22
 	
 clean:
 	rm -f main

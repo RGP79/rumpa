@@ -403,7 +403,7 @@ int main(int argc, char **argv)
                 printf("x_2: %d\n",obszare->x[2]);
                 printf("y_2: %d\n",obszare->y[2]);
                 printf("Typ pola 2: %s\n",obszare->type[2]);
-                for (int i = 0, i<3; i++){
+                for (int i = 0; i<3; i++){
                     if(strcmp(obszare->type[i], "grass")==0)
                     plansza[MAX_SIZE-1-obszare->y[i]][obszare->x[i]]='G';
                     if(strcmp(obszare->type[i], "sand")==0)
