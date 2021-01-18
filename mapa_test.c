@@ -1,15 +1,25 @@
 //unit tests
+#include "mapa.h"
 
-int main()
+int main(int argc, char **argv)
 {
-    //testowanie funkcji z pliku mapa.c
-    //testowanie przypadków związanych z potrzebą realokowania
-    //taki trochę debbuger obsługi mapy
+    char *mov="M";
+    char *rotL="Rleft";
+    char *rotR="Rright";
+    char *exp="E";
+    char *res="reset";
+    Mapa *M;
+    M=nowa(M);
+    wypisz(M);
 
-    //przykładowy test:
-    //utworzenie mapy (np. [5][5])
-    //zapamietanie wartosci
-    //testowanie funkcji offset
+        //testowanie funkcji z pliku mapa.c
+        //testowanie przypadków związanych z potrzebą realokowania
+        //taki trochę debbuger obsługi mapy
 
-    //valgrind
+        //przykładowy test:
+        //utworzenie mapy (np. [5][5])
+        //zapamietanie wartosci
+        //testowanie funkcji offset
+
+        //valgrind
 }

@@ -1,5 +1,5 @@
 all:
-	cc main.c -o main -lcurl ../../cJSON/cJSON.o
+	cc main.c serwer.c APIdecoder.c mapa.c -o main -lcurl ../../cJSON/cJSON.o
 
 test: all
 	./main qwerty_22
@@ -20,10 +20,14 @@ test-reset:
 	./main qwerty_22 reset reset
 
 test-gra:
-	valgrind ./main qwerty_22 E M E M E M E M E M E M E M E M E M E
+	./main qwerty_22 E M E M E M E M E M E M E M E M E M E 
 
 test-memory:
 	valgrind ./main qwerty_22
+
+test-mapa:
+	cc mapa_test.c mapa.c -o mapa_test -lm
+	./mapa_test
 	
 clean:
 	rm -f main
