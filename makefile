@@ -4,7 +4,7 @@ all:
 test: all
 	./main qwerty_22
 
-test-mov:
+test-mov: all
 	./main qwerty_22 M
 
 test-exp:
@@ -16,11 +16,11 @@ test-rotR:
 test-rotL:
 	./main qwerty_22 Rleft
 
-test-reset:
+test-reset: all
 	./main qwerty_22 reset reset
 
 test-gra:
-	./main qwerty_22 E M E M E M E M E M E M E M E M E M E 
+	./main qwerty_22 M M M
 
 test-memory:
 	valgrind ./main qwerty_22

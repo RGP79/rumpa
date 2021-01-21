@@ -10,6 +10,7 @@ typedef struct _obszar
     int x;
     int y;
     char *type;
+    char *dir;
 } obszar;
 
 typedef struct _obszar3
@@ -31,7 +32,7 @@ char *explore(char *token);
 
 char *reset(char *token);
 
-obszar *DJson(char *response);
+obszar *DJson_mov(char *response);
 
 obszar3 *DJson_explore(char *response);
 

@@ -68,7 +68,7 @@ char *make_request(char *url){
         }
         else
         {
-            printf("%s", chunk.response);
+            printf("chunk response: %s", chunk.response);
         }
 
         /* zawsze po sobie sprzątaj */

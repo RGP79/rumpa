@@ -17,13 +17,31 @@ typedef struct _Mapa
     char *kierunek;
     int rozmiar_x;
     int rozmiar_y;
-    struct _obszar mapa;
-    struct _obszar3 mapa2;
 
 } Mapa;
 
 Mapa * nowa(Mapa* M);
 
 void wypisz(Mapa *M);
+
+void *zapisz(Mapa *M);
+
+void *wczytaj(Mapa *M);
+
+int check_border(Mapa *M);
+
+Mapa * dopisz(Mapa *M);
+
+Mapa * dopisz_N(Mapa *M);
+
+Mapa * dopisz_E(Mapa *M);
+
+Mapa * dopisz_S(Mapa *M);
+
+Mapa * dopisz_W(Mapa *M);
+
+Mapa * offset(Mapa *M);
+
+void zwolnij_mape(Mapa *M);
 
 #endif

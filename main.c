@@ -202,7 +202,7 @@
 //     char *type[3];
 // }   obszar3;
 
-// obszar *DJson(char *response)
+// obszar *DJson_mov(char *response)
 // {
 //     obszar *a;
 //     const cJSON *status = NULL;
@@ -366,21 +366,24 @@ int main(int argc, char **argv)
         {
             if(strcmp(argv[i],mov)==0)
             {
-                
+                wczytaj(M);
                 response=move(token);
-                obszar *field = DJson(response);
+                obszar *field = DJson_mov(response);
                 free(response);
                 printf("x: %d\n",field->x);
                 printf("y: %d\n",field->y);
                 printf("Typ pola: %s\n",field->type);
                 if(strcmp(field->type, "grass")==0)
-                    M->plansza[N-1-field->y][field->x]='G';
+                    M->plansza[M->rozmiar_y - M->delta_y - field->y][M->delta_x + field->x]='G';
                 if(strcmp(field->type, "sand")==0)
-                    M->plansza[N-1-field->y][field->x]='S';
+                    M->plansza[M->rozmiar_y - M->delta_y - field->y][M->delta_x + field->x]='S';
                 if(strcmp(field->type, "wall")==0)
-                    M->plansza[N-1-field->y][field->x]='W';
-
-                wypisz(M);
+                    M->plansza[M->rozmiar_y - M->delta_y - field->y][M->delta_x + field->x]='W';
+                M->x = field->x;
+                M->y = field->y;
+                M->kierunek = field->dir;
+                zapisz(M);
+                wypisz(M);                
                 free(field->type);
                 free(field);
             }
@@ -392,55 +395,57 @@ int main(int argc, char **argv)
             {
                 response=rotate(token, "right");
             }
-            // else if(strcmp(argv[i],exp)==0)
-            // {
-            //     wczytaj(plansza);
-            //     response=explore(token);
-            //     obszar3 *obszare = DJson_explore(response);
-            //     free(response);
-            //     printf("x_0: %d\n",obszare->x[0]);
-            //     printf("y_0: %d\n",obszare->y[0]);
-            //     printf("Typ pola 0: %s\n",obszare->type[0]);
-            //     printf("x_1: %d\n",obszare->x[1]);
-            //     printf("y_1: %d\n",obszare->y[1]);
-            //     printf("Typ pola 1: %s\n",obszare->type[1]);
-            //     printf("x_2: %d\n",obszare->x[2]);
-            //     printf("y_2: %d\n",obszare->y[2]);
-            //     printf("Typ pola 2: %s\n",obszare->type[2]);
-            //     for (int i = 0; i<3; i++){
-            //         if(strcmp(obszare->type[i], "grass")==0)
-            //         plansza[MAX_SIZE-1-obszare->y[i]][obszare->x[i]]='G';
-            //         if(strcmp(obszare->type[i], "sand")==0)
-            //         plansza[MAX_SIZE-1-obszare->y[i]][obszare->x[i]]='S';
-            //         if(strcmp(obszare->type[i], "wall")==0)
-            //         plansza[MAX_SIZE-1-obszare->y[i]][obszare->x[i]]='W';
-            //     }
+            else if(strcmp(argv[i],exp)==0)
+            {
+                wczytaj(M);
+                response=explore(token);
+                obszar3 *obszare = DJson_explore(response);
+                free(response);
+                printf("x_0: %d\n",obszare->x[0]);
+                printf("y_0: %d\n",obszare->y[0]);
+                printf("Typ pola 0: %s\n",obszare->type[0]);
+                printf("x_1: %d\n",obszare->x[1]);
+                printf("y_1: %d\n",obszare->y[1]);
+                printf("Typ pola 1: %s\n",obszare->type[1]);
+                printf("x_2: %d\n",obszare->x[2]);
+                printf("y_2: %d\n",obszare->y[2]);
+                printf("Typ pola 2: %s\n",obszare->type[2]);
+                for (int i = 0; i<3; i++){
+                    if(strcmp(obszare->type[i], "grass")==0)
+                    M->plansza[M->rozmiar_y-1-obszare->y[i]][obszare->x[i]]='G';
+                    if(strcmp(obszare->type[i], "sand")==0)
+                    M->plansza[M->rozmiar_y-1-obszare->y[i]][obszare->x[i]]='S';
+                    if(strcmp(obszare->type[i], "wall")==0)
+                    M->plansza[M->rozmiar_y-1-obszare->y[i]][obszare->x[i]]='W';
+                }
                 
-            //     wypisz(plansza);
-            //     zapisz(plansza);
-            //     for(int i=0;i<3;i++)
-            //     {
-            //     free(obszare->type[i]);
-            //     }
-            //     free(obszare);
-            // }
+                wypisz(M);
+                zapisz(M);
+                for(int i=0;i<3;i++)
+                {
+                free(obszare->type[i]);
+                }
+                free(obszare);
+            }
             else if(strcmp(argv[i],res)==0)
             {
                 response=reset(token);
-                obszar *field = DJson(response);
+                obszar *field = DJson_mov(response);
                 free(response);
                 printf("x: %d\n",field->x);
                 printf("y: %d\n",field->y);
                 printf("Typ pola: %s\n",field->type);
                 if(strcmp(field->type, "grass")==0)
-                    M->plansza[N-1-field->y][field->x]='G';
+                    M->plansza[M->rozmiar_y - M->delta_y - field->y][M->delta_x + field->x]='G';
                 if(strcmp(field->type, "sand")==0)
-                    M->plansza[N-1-field->y][field->x]='S';
+                    M->plansza[M->rozmiar_y - M->delta_y - field->y][M->delta_x + field->x]='S';
                 if(strcmp(field->type, "wall")==0)
-                    M->plansza[N-1-field->y][field->x]='W';
-
+                    M->plansza[M->rozmiar_y - M->delta_y - field->y][M->delta_x + field->x]='W';
+                M->x = field->x;
+                M->y = field->y;
+                M->kierunek = field->dir;
                 wypisz(M);
-                //zapisz(plansza);
+                zapisz(M);
                 free(field->type);
                 free(field);
             }
@@ -449,8 +454,13 @@ int main(int argc, char **argv)
                 printf("\nBłąd: nieznana komenda!\n");
                 exit(-1);
             }
-            
+            if((check_border(M)) == 0){                
+                M = dopisz(M);                
+                wypisz(M);
+                zapisz(M);
+            }
         }
+        zwolnij_mape(M);
     }
     
     return 0;

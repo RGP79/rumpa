@@ -105,7 +105,7 @@ char *reset(char *token){
     return response;
 }
 
-obszar *DJson(char *response)
+obszar *DJson_mov(char *response)
 {
     obszar *a;
     const cJSON *status = NULL;
@@ -126,6 +126,7 @@ obszar *DJson(char *response)
         cJSON *current_x = cJSON_GetObjectItemCaseSensitive(payload, "current_x");
         cJSON *current_y = cJSON_GetObjectItemCaseSensitive(payload, "current_y");
         cJSON *field_type = cJSON_GetObjectItemCaseSensitive(payload, "field_type");
+        cJSON *direction = cJSON_GetObjectItemCaseSensitive(payload, "direction");
 
         /*if (!cJSON_IsNumber(current_x) || !cJSON_IsNumber(current_y))
         {
@@ -137,6 +138,8 @@ obszar *DJson(char *response)
         a->y=current_y->valueint;
         a->type = (char*) malloc(sizeof(char) * strlen((field_type->valuestring) + 1));
         strcpy(a->type, field_type->valuestring);
+        a->dir = (char*) malloc(sizeof(char) * strlen((direction->valuestring) + 1));
+        strcpy(a->dir, direction->valuestring);
     }
 
 end:
