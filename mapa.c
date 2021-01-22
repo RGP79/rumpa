@@ -32,10 +32,11 @@ Mapa * nowa(Mapa *M){
 
 int check_border(Mapa *M)
 {
-    printf("warunek S: %d\n", (M->y));
-    printf("rozmiar_y: %d\n", (M->rozmiar_y-1));
-    if((M->rozmiar_y - M->delta_y - M->y) == 0 || (M->delta_x + M->x) == (M->rozmiar_x - 1) /*|| (M->y) == (M->rozmiar_y-1)*/){
-        printf("zwracam 0\n");
+    // printf("warunek N: %d = %d\n", (M->rozmiar_y - M->delta_y - M->y), 0);
+    // printf("warunek E: %d = %d\n", (M->delta_x + M->x), (M->rozmiar_x - 1));
+    // printf("warunek S: %d = %d\n", (M->rozmiar_y - M->delta_y - M->y), (M->rozmiar_y-1));
+    // printf("warunek W: %d = %d\n", (M->delta_x + M->x), 0);
+    if((M->rozmiar_y - M->delta_y - M->y) == 0 || (M->delta_x + M->x) == (M->rozmiar_x - 1) || (M->rozmiar_y - M->delta_y - M->y) == (M->rozmiar_y-1) || (M->delta_x + M->x) == (0)){
         return 0;
     }
     else
@@ -45,10 +46,8 @@ int check_border(Mapa *M)
 }
 
 Mapa * dopisz(Mapa *M)
-{
-    //printf("M->kierunek wynosi: %s\n", M->kierunek);
-    Mapa *Nowa;
-    //printf("no wszedłem do dopisza\n");
+{    
+    Mapa *Nowa;    
     if(strcmp(M->kierunek, "N")==0)      {Nowa=dopisz_N(M);}
     else if(strcmp(M->kierunek, "E")==0) {Nowa=dopisz_E(M);}
     else if(strcmp(M->kierunek, "S")==0) {Nowa=dopisz_S(M);}
@@ -61,23 +60,33 @@ Mapa * dopisz(Mapa *M)
 }
 
 Mapa * dopisz_N(Mapa *M)
-{
-    printf("dokonało się!\n");
+{   
     int i, j;
     Mapa *New = M;    
     New = (Mapa*) malloc(sizeof(Mapa));    
     New->rozmiar_x = M->rozmiar_x;
-    New->rozmiar_y = M->rozmiar_y*2;
+    New->rozmiar_y = M->rozmiar_y*2;  
     New->plansza = (char**) malloc(sizeof(char*) *New->rozmiar_y);
+    printf("maniek\n");
+    printf("M->rozmiar_y=%d\n", M->rozmiar_y);
     for(i=0; i<New->rozmiar_y; i++)
     {
+        printf("i=%d\n", i);
         New->plansza[i] = (char*) malloc(sizeof(char) * New->rozmiar_x);
+        
         for(j=0;j<New->rozmiar_x;j++)
         {
-
-            New->plansza[i][j]='*';
-        }            
+            printf("j=%d ", j);
+            if(i < M->rozmiar_y){
+                New->plansza[i][j]='*';
+            }
+            if(i >= M->rozmiar_y){
+                New->plansza[i][j]=M->plansza[i][j];
+            }
+        }
+        printf("\n");         
     }
+    printf("żaden\n");
     New->delta_x = M->delta_x;
     New->delta_y = M->delta_y;
     zwolnij_mape(M);
