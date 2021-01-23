@@ -22,6 +22,8 @@ typedef struct _obszar3
 
 char *info(char *token);
 
+void *wypisz_info(char *token);
+
 char *move(char *token);
 
 char *rotate(char *token, char *direction);
@@ -32,7 +34,7 @@ char *explore(char *token);
 
 char *reset(char *token);
 
-obszar *DJson_mov(char *response);
+obszar *DJson_info(char *response);
 
 obszar3 *DJson_explore(char *response);
 

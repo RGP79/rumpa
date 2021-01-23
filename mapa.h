@@ -9,7 +9,7 @@
 
 typedef struct _Mapa
 {
-    char **plansza;
+    int **plansza;
     int x;
     int y;
     int delta_x;
@@ -20,7 +20,7 @@ typedef struct _Mapa
 
 } Mapa;
 
-Mapa * nowa(Mapa* M);
+Mapa * nowa(obszar *F);
 
 void wypisz(Mapa *M);
 

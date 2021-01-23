@@ -15,6 +15,19 @@ char *info(char *token)
     url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
     strcpy(url,url1);
     strncat(url,token,9);
+    response=make_request(url);
+    free(url);
+    return response;
+}
+
+void *wypisz_info(char *token)
+{
+    char *url; 
+    char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/info/";
+    char *response;
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
+    strcpy(url,url1);
+    strncat(url,token,9);
     printf("%s\n",url);
     printf("Informacje świata %s:\n\n",token);
     response=make_request(url);
@@ -48,8 +61,6 @@ char *rotate(char *token, char *direction)
     strncat(url, "/", 1);
     strncat(url,direction,5);
     printf("%s\n",url);
-    // if(strcmp(direction, "left")==0)
-    //     printf("Obracam w lewo.\n\n");
     if(strcmp(direction, "right")==0)
         printf("Obracam się w prawo.\n\n");
     response=make_request(url);
@@ -70,8 +81,6 @@ char *rotatel(char *token, char *direction)
     printf("%s\n",url);
     if(strcmp(direction, "left")==0)
         printf("Obracam się w lewo.\n\n");
-    // if(strcmp(direction, "right")==0)
-    //     printf("Obracam w prawo.\n\n");
     response=make_request(url);
     free(url);
     return response;
@@ -105,7 +114,7 @@ char *reset(char *token){
     return response;
 }
 
-obszar *DJson_mov(char *response)
+obszar *DJson_info(char *response)
 {
     obszar *a;
     const cJSON *status = NULL;
