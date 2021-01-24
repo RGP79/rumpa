@@ -15,4 +15,6 @@ static size_t write_callback(void *data, size_t size, size_t nmemb, void *userp)
 
 char *make_request(char *url);
 
+char *make_request_wypisz(char *url);
+
 #endif

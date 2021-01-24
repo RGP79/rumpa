@@ -1,9 +1,3 @@
-//4:30
-//przetwarzanie zwróconej przez serwer odpowiedzi API
-//input to string (responce)
-//przetwarzanie pliku tekstowego za pomocą biblioteki cJSON
-//output danych w postaci stucta (koordynaty i typ, kierunek, położenie)
-
 #include "APIdecoder.h"
 #include "serwer.h"
 
@@ -12,7 +6,7 @@ char *info(char *token)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/info/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
     strcpy(url,url1);
     strncat(url,token,9);
     response=make_request(url);
@@ -25,12 +19,12 @@ void *wypisz_info(char *token)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/info/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
     strcpy(url,url1);
     strncat(url,token,9);
-    printf("%s\n",url);
+    //printf("%s\n",url);
     printf("Informacje świata %s:\n\n",token);
-    response=make_request(url);
+    response=make_request_wypisz(url);
     free(url);
     return response;
 }
@@ -40,10 +34,10 @@ char *move(char *token)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/move/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1) + 10) + (sizeof(char) *strlen((token) + 1)));
+    url = (char*) malloc((sizeof(char) * strlen(url1) + 10) + (sizeof(char) *strlen((token))));
     strcpy(url,url1);
     strncat(url,token,9);
-    printf("%s\n",url);
+    //printf("%s\n",url);
     printf("Wykonuję ruch.\n\n");
     response=make_request(url);
     free(url);
@@ -55,14 +49,14 @@ char *rotate(char *token, char *direction)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/rotate/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1) + 20) + (sizeof(char) * strlen((token) + 1)) + (sizeof(char) * strlen((direction) + 1)));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) * strlen(token)) + (sizeof(char) * strlen(direction)));
     strcpy(url,url1);
     strncat(url,token,9);
     strncat(url, "/", 1);
     strncat(url,direction,5);
-    printf("%s\n",url);
-    if(strcmp(direction, "right")==0)
-        printf("Obracam się w prawo.\n\n");
+    //printf("%s\n",url);
+    // if(strcmp(direction, "right")==0)
+    //     printf("Obracam się w prawo.\n\n");
     response=make_request(url);
     free(url);
     return response;
@@ -73,14 +67,14 @@ char *rotatel(char *token, char *direction)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/rotate/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1) + 10) + (sizeof(char) * strlen((token) + 1)) + (sizeof(char) * strlen((direction) + 10)));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) * strlen(token)) + (sizeof(char) * strlen(direction)));
     strcpy(url,url1);
     strncat(url,token,9);
     strncat(url, "/", 1);
     strncat(url,direction,4);
-    printf("%s\n",url);
-    if(strcmp(direction, "left")==0)
-        printf("Obracam się w lewo.\n\n");
+    //printf("%s\n",url);
+    // if(strcmp(direction, "left")==0)
+    //     printf("Obracam się w lewo.\n\n");
     response=make_request(url);
     free(url);
     return response;
@@ -90,11 +84,10 @@ char *explore(char *token){
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/explore/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)+10) + (sizeof(char) *strlen((token) + 1)));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
     strcpy(url,url1);
     strncat(url,token,9);
-    printf("%s\n",url);
-    printf("Odkrywam.\n\n");
+    //printf("%s\n",url);
     response=make_request(url);
     free(url);
     return response;
@@ -104,11 +97,10 @@ char *reset(char *token){
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/reset/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
     strcpy(url,url1);
     strncat(url,token,9);
-    printf("%s\n",url);
-    printf("Resetuję świat: %s\n\n",token);
+    //printf("%s\n",url);    
     response=make_request(url);
     free(url);
     return response;
@@ -145,9 +137,9 @@ obszar *DJson_info(char *response)
         a = malloc(sizeof(obszar));
         a->x=current_x->valueint;        
         a->y=current_y->valueint;
-        a->type = (char*) malloc(sizeof(char) * strlen((field_type->valuestring) + 1));
+        a->type = (char*) malloc(sizeof(char) * strlen((field_type->valuestring)));
         strcpy(a->type, field_type->valuestring);
-        a->dir = (char*) malloc(sizeof(char) * strlen((direction->valuestring) + 1));
+        a->dir = (char*) malloc(sizeof(char) * strlen((direction->valuestring)));
         strcpy(a->dir, direction->valuestring);
     }
 
@@ -192,7 +184,7 @@ obszar3 *DJson_explore(char *response)
 
         a->x[i]=x->valueint;
         a->y[i]=y->valueint;
-        a->type[i] = (char*) malloc(sizeof(char) * strlen((type->valuestring) + 1));
+        a->type[i] = (char*) malloc(sizeof(char) * strlen((type->valuestring)));
         strcpy(a->type[i], type->valuestring);
         i++;
     }
