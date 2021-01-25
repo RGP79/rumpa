@@ -38,7 +38,7 @@ void moveToHit(char *token)
     test:
     while(field->x != bufor_x || field->y != bufor_y)
     {
-        free(field);
+        //free(field);
         bufor_x = getStartX(token);
         bufor_y = getStartY(token);
         printf("bufor_x = getstartx: %d\n", bufor_x);
