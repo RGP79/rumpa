@@ -1,6 +1,7 @@
 #include "serwer.h"
 #include "APIdecoder.h"
 #include "mapa.h"
+#include "logic.h"
 
 int main(int argc, char **argv)
 {    
@@ -11,13 +12,15 @@ int main(int argc, char **argv)
     char *rotL="Rleft";
     char *rotR="Rright";
     char *exp="E";
-    char *res="reset";    
+    char *res="reset";
+    char *bot="bot";    
     token=argv[1];
     int i,j;
     response1 = info(token);
     obszar *F = DJson_info(response1);
     free(response1);
-    Mapa *M = nowa(F);    
+    Mapa *M = nowa(F);
+
 
     if(argc<3)
     {
@@ -96,6 +99,11 @@ int main(int argc, char **argv)
                 free(field->type);
                 free(field->dir);
                 free(field);
+            }
+            else if(strcmp(argv[i],bot)==0)
+            {
+                moveToHit(token);
+                rundkiL(token);
             }
             else
             {

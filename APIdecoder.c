@@ -6,7 +6,7 @@ char *info(char *token)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/info/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
     strcpy(url,url1);
     strncat(url,token,9);
     response=make_request(url);
@@ -19,7 +19,7 @@ void *wypisz_info(char *token)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/info/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
     strcpy(url,url1);
     strncat(url,token,9);
     //printf("%s\n",url);
@@ -34,7 +34,7 @@ char *move(char *token)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/move/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1) + 10) + (sizeof(char) *strlen((token))));
+    url = (char*) malloc((sizeof(char) * strlen(url1) + 20) + (sizeof(char) *strlen((token) + 1)));
     strcpy(url,url1);
     strncat(url,token,9);
     //printf("%s\n",url);
@@ -49,7 +49,7 @@ char *rotate(char *token, char *direction)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/rotate/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) * strlen(token)) + (sizeof(char) * strlen(direction)));
+    url = (char*) malloc((sizeof(char) * strlen(url1) + 20) + (sizeof(char) * strlen(token) + 1) + (sizeof(char) * strlen(direction) + 1));
     strcpy(url,url1);
     strncat(url,token,9);
     strncat(url, "/", 1);
@@ -67,7 +67,7 @@ char *rotatel(char *token, char *direction)
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/rotate/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) * strlen(token)) + (sizeof(char) * strlen(direction)));
+    url = (char*) malloc((sizeof(char) * strlen(url1) + 20) + (sizeof(char) * strlen((token) + 1)) + (sizeof(char) * strlen((direction) + 10)));
     strcpy(url,url1);
     strncat(url,token,9);
     strncat(url, "/", 1);
@@ -84,7 +84,7 @@ char *explore(char *token){
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/explore/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
+    url = (char*) malloc((sizeof(char) * strlen(url1) + 20) + (sizeof(char) *strlen((token) + 1)));
     strcpy(url,url1);
     strncat(url,token,9);
     //printf("%s\n",url);
@@ -97,7 +97,7 @@ char *reset(char *token){
     char *url; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/reset/";
     char *response;
-    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token))));
+    url = (char*) malloc((sizeof(char) * strlen(url1)) + (sizeof(char) *strlen((token) + 1)));
     strcpy(url,url1);
     strncat(url,token,9);
     //printf("%s\n",url);    
@@ -137,9 +137,9 @@ obszar *DJson_info(char *response)
         a = malloc(sizeof(obszar));
         a->x=current_x->valueint;        
         a->y=current_y->valueint;
-        a->type = (char*) malloc(sizeof(char) * strlen((field_type->valuestring)));
+        a->type = (char*) malloc(sizeof(char) * strlen((field_type->valuestring) + 1));
         strcpy(a->type, field_type->valuestring);
-        a->dir = (char*) malloc(sizeof(char) * strlen((direction->valuestring)));
+        a->dir = (char*) malloc(sizeof(char) * strlen((direction->valuestring) + 1));
         strcpy(a->dir, direction->valuestring);
     }
 
@@ -184,7 +184,7 @@ obszar3 *DJson_explore(char *response)
 
         a->x[i]=x->valueint;
         a->y[i]=y->valueint;
-        a->type[i] = (char*) malloc(sizeof(char) * strlen((type->valuestring)));
+        a->type[i] = (char*) malloc(sizeof(char) * strlen((type->valuestring) + 1));
         strcpy(a->type[i], type->valuestring);
         i++;
     }
