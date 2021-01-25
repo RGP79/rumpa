@@ -1,43 +1,16 @@
+//po zmianie delty nie aktualizują się funkcje rotacyjne.
 #include "mapa.h"
-//wypisywać kierunek czołgu i położenie w interfejsie
-Mapa * nowa(obszar *F){
+Map * new_map(Area *F){
     int i, j;
-    Mapa *M;
-    M = (Mapa*) malloc(sizeof(Mapa));
+    Map *M;
+    M = (Map*) malloc(sizeof(Map));
     M->rozmiar_x = N;
     M->rozmiar_y = N;
     M->delta_x = 1;
     M->delta_y = 1;
     M->x = F->x + M->delta_x;
     M->y = F->y + M->delta_y;
-    M->kierunek = (char*) malloc(sizeof(char) * strlen((F->dir)));
-    strcpy(M->kierunek, F->dir);
-    M->plansza = (int**) calloc(M->rozmiar_y, sizeof(int*));
-    for(i=0; i<M->rozmiar_y; i++)
-    {
-        M->plansza[i] = (int*) calloc(M->rozmiar_x, sizeof(int));
-        for(j=0;j<M->rozmiar_x;j++)
-        {
-            M->plansza[i][j]=' ';
-        }
-    }
-    free(F->type);
-    free(F->dir);
-    free(F);
-    return M;
-}
-
-Mapa * nowa_reset(obszar *F){
-    int i, j;
-    Mapa *M;
-    M = (Mapa*) malloc(sizeof(Mapa));
-    M->rozmiar_x = N;
-    M->rozmiar_y = N;
-    M->delta_x = 1;
-    M->delta_y = 1;
-    M->x = F->x + M->delta_x;
-    M->y = F->y + M->delta_y;
-    M->kierunek = (char*) malloc(sizeof(char) * strlen((F->dir)));
+    M->kierunek = (char*) malloc(sizeof(char) * strlen((F->dir) + 1));
     strcpy(M->kierunek, F->dir);
     M->plansza = (int**) calloc(M->rozmiar_y, sizeof(int*));
     for(i=0; i<M->rozmiar_y; i++)
@@ -51,19 +24,19 @@ Mapa * nowa_reset(obszar *F){
     return M;
 }
 
-Mapa * tank_rot(Mapa *M, obszar *F)
+Map * tank_rot(Map *M, Area *F)
 {
-    Mapa *New = M;
-    // New->kierunek = (char*) malloc(sizeof(char) * strlen((F->dir)));
+    Map *New = M;
+    // New->kierunek = (char*) malloc(sizeof(char) * strlen((F->dir) + 1));
     // strcpy(New->kierunek, F->dir);
     New->kierunek = F->dir;
     // free(M->kierunek);
     return New;
 }
 
-Mapa * tank_move(Mapa *M, obszar *F)
+Map * tank_move(Map *M, Area *F)
 {   
-    Mapa *New = M;
+    Map *New = M;
     New->x = F->x + M->delta_x;
     New->y = F->y + M->delta_y;
     if(strcmp(F->type, "grass")==0)
@@ -75,9 +48,9 @@ Mapa * tank_move(Mapa *M, obszar *F)
     return New;
 }
 
-Mapa * tank_reset(Mapa *M, obszar *F)
+Map * tank_reset(Map *M, Area *F)
 {   
-    Mapa *New = M;
+    Map *New = M;
     if(strcmp(F->type, "grass")==0)
         New->plansza[New->y][New->x]='G';
     if(strcmp(F->type, "sand")==0)
@@ -87,7 +60,7 @@ Mapa * tank_reset(Mapa *M, obszar *F)
     return New;
 }
 
-Mapa * tank_exp(Mapa *M, obszar3 *Fe)
+Map * tank_exp(Map *M, Area3 *Fe)
 {    
     for (int i = 0; i<3; i++){
         if(strcmp(Fe->type[i], "grass")==0)
@@ -100,7 +73,7 @@ Mapa * tank_exp(Mapa *M, obszar3 *Fe)
     return M;
 }
 
-void wyp_inf_Map_exp(obszar3 *Fe)
+void write_inf_Map_exp(Area3 *Fe)
 {
     printf("x 1: %d\n",Fe->x[0]);
     printf("y 1: %d\n",Fe->y[0]);
@@ -113,7 +86,7 @@ void wyp_inf_Map_exp(obszar3 *Fe)
     printf("Type of field 3: %s\n",Fe->type[2]);
 }
 
-void wypisz_info_Mapa(Mapa *M, obszar *F)
+void write_info_Map(Map *M, Area *F)
 {
     // printf("M->rozmiar_x: %d\n", M->rozmiar_x);
     // printf("M->rozmiar_y: %d\n", M->rozmiar_y);
@@ -123,7 +96,7 @@ void wypisz_info_Mapa(Mapa *M, obszar *F)
     printf("Field type: %s\n",F->type);
 }
 
-int check_border(Mapa *M)
+int check_border(Map *M)
 {
     // printf("M->x: %d\n", M->x);
     // printf("M->y: %d\n", M->y);
@@ -143,140 +116,110 @@ int check_border(Mapa *M)
     }
 }
 
-Mapa * dopisz(Mapa *M)
+Map * render(Map *M)
 {    
-    Mapa *Nowa;  
-    if(strcmp(M->kierunek, "N")==0)      {Nowa=dopisz_N(M);}
-    else if(strcmp(M->kierunek, "E")==0) {Nowa=dopisz_E(M);}
-    else if(strcmp(M->kierunek, "S")==0) {Nowa=dopisz_S(M);}
-    else if(strcmp(M->kierunek, "W")==0) {Nowa=dopisz_W(M);}
+    int i, j;
+    Map *New;    
+    New = (Map*) malloc(sizeof(Map)); 
+    if(strcmp(M->kierunek, "N")==0)
+    {
+        New->rozmiar_x = M->rozmiar_x;
+        New->rozmiar_y = M->rozmiar_y*2;  
+        New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
+        for(i=0; i<New->rozmiar_y; i++){ 
+            New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
+            for(j=0;j<New->rozmiar_x;j++)
+            {            
+                if(i < M->rozmiar_y){
+                    New->plansza[i][j] = M->plansza[i][j];
+                }
+                if(i >= M->rozmiar_y){
+                    New->plansza[i][j]=' ';
+                }
+            }
+        }
+        New->delta_x = M->delta_x;
+        New->delta_y = M->delta_y;
+        New->x = M->x;
+        New->y = M->y;
+    }
+    else if(strcmp(M->kierunek, "E")==0)
+    {
+        New->rozmiar_x = M->rozmiar_x*2;
+        New->rozmiar_y = M->rozmiar_y;  
+        New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
+        for(i=0; i<New->rozmiar_y; i++){ 
+            New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
+            for(j=0;j<New->rozmiar_x;j++)
+            {            
+                if(j < M->rozmiar_x){
+                    New->plansza[i][j] = M->plansza[i][j];
+                }
+                if(j >= M->rozmiar_x){
+                    New->plansza[i][j]=' ';
+                }            
+            }        
+        }
+        New->delta_x = M->delta_x;
+        New->delta_y = M->delta_y;
+        New->x = M->x;
+        New->y = M->y;
+    }
+    else if(strcmp(M->kierunek, "S")==0)
+    {
+        New->rozmiar_x = M->rozmiar_x;
+        New->rozmiar_y = M->rozmiar_y*2;  
+        New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
+        for(i=0; i<New->rozmiar_y; i++){ 
+            New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
+            for(j=0;j<New->rozmiar_x;j++)
+            {            
+                if(i < M->rozmiar_y){
+                    New->plansza[i][j]=' ';
+                }
+                if(i >= M->rozmiar_y){
+                    New->plansza[i][j] = M->plansza[i - M->rozmiar_y][j];
+                }            
+            }        
+        }
+        New->delta_x = M->delta_x;
+        New->delta_y = M->delta_y + M->rozmiar_y;
+        New->x = M->x;
+        New->y = M->y + New->delta_y;
+    }
+    else if(strcmp(M->kierunek, "W")==0)
+    {
+        New->rozmiar_x = M->rozmiar_x*2;
+        New->rozmiar_y = M->rozmiar_y;  
+        New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
+        for(i=0; i<New->rozmiar_y; i++){ 
+            New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
+            for(j=0;j<New->rozmiar_x;j++)
+            {            
+                if(j < M->rozmiar_x){
+                    New->plansza[i][j]=' ';
+                }
+                if(j >= M->rozmiar_x){
+                    New->plansza[i][j] = M->plansza[i][j - M->rozmiar_x];
+                }                
+            }
+        }
+        New->delta_x = M->delta_x + M->rozmiar_x;
+        New->delta_y = M->delta_y;
+        New->x = M->x + New->delta_x;
+        New->y = M->y;
+    }
     else
     {
-        printf("błąd funkcji dopisz.\n");
+        printf("błąd funkcji render.\n");
     }
-    return Nowa;    
+    New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek) + 1));
+    strcpy(New->kierunek, M->kierunek);
+    free_map(M);
+    return New;    
 }
 
-Mapa * dopisz_N(Mapa *M)
-{    
-    int i, j;
-    Mapa *New;    
-    New = (Mapa*) malloc(sizeof(Mapa));    
-    New->rozmiar_x = M->rozmiar_x;
-    New->rozmiar_y = M->rozmiar_y*2;  
-    New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
-    for(i=0; i<New->rozmiar_y; i++){ 
-        New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
-        for(j=0;j<New->rozmiar_x;j++)
-        {            
-            if(i < M->rozmiar_y){
-                New->plansza[i][j] = M->plansza[i][j];
-            }
-            if(i >= M->rozmiar_y){
-                New->plansza[i][j]=' ';
-            }
-        }
-    }
-    New->delta_x = M->delta_x;
-    New->delta_y = M->delta_y;
-    New->x = M->x;
-    New->y = M->y;
-    New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek)));
-    strcpy(New->kierunek, M->kierunek);
-    zwolnij_mape(M);
-    return New;
-}
-
-Mapa * dopisz_E(Mapa *M)
-{   
-    int i, j;
-    Mapa *New;    
-    New = (Mapa*) malloc(sizeof(Mapa));    
-    New->rozmiar_x = M->rozmiar_x*2;
-    New->rozmiar_y = M->rozmiar_y;  
-    New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
-    for(i=0; i<New->rozmiar_y; i++){ 
-        New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
-        for(j=0;j<New->rozmiar_x;j++)
-        {            
-            if(j < M->rozmiar_x){
-                New->plansza[i][j] = M->plansza[i][j];
-            }
-            if(j >= M->rozmiar_x){
-                New->plansza[i][j]=' ';
-            }            
-        }        
-    }
-    New->delta_x = M->delta_x;
-    New->delta_y = M->delta_y;
-    New->x = M->x;
-    New->y = M->y;
-    New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek)));
-    strcpy(New->kierunek, M->kierunek);
-    zwolnij_mape(M);
-    return New;
-}
-Mapa * dopisz_S(Mapa *M)
-{
-    int i, j;
-    Mapa *New;    
-    New = (Mapa*) malloc(sizeof(Mapa));    
-    New->rozmiar_x = M->rozmiar_x;
-    New->rozmiar_y = M->rozmiar_y*2;  
-    New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
-    for(i=0; i<New->rozmiar_y; i++){ 
-        New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
-        for(j=0;j<New->rozmiar_x;j++)
-        {            
-            if(i < M->rozmiar_y){
-                New->plansza[i][j]=' ';
-            }
-            if(i >= M->rozmiar_y){
-                New->plansza[i][j] = M->plansza[i][j];
-            }            
-        }        
-    }
-    New->delta_x = M->delta_x;
-    New->delta_y = M->delta_y + M->rozmiar_y;
-    New->x = M->x;
-    New->y = M->y + New->delta_y;
-    New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek)));
-    strcpy(New->kierunek, M->kierunek);
-    zwolnij_mape(M);
-    return New;
-}
-
-Mapa * dopisz_W(Mapa *M)
-{    
-    int i, j;
-    Mapa *New;    
-    New = (Mapa*) malloc(sizeof(Mapa));    
-    New->rozmiar_x = M->rozmiar_x*2;
-    New->rozmiar_y = M->rozmiar_y;  
-    New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
-    for(i=0; i<New->rozmiar_y; i++){ 
-        New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
-        for(j=0;j<New->rozmiar_x;j++)
-        {            
-            if(j < M->rozmiar_x){
-                New->plansza[i][j]=' ';
-            }
-            if(j >= M->rozmiar_x){
-                New->plansza[i][j] = M->plansza[i][j];
-            }
-        }
-    }
-    New->delta_x = M->delta_x + M->rozmiar_x;
-    New->delta_y = M->delta_y;
-    New->x = M->x + New->delta_x;
-    New->y = M->y;
-    New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek)));
-    strcpy(New->kierunek, M->kierunek);
-    zwolnij_mape(M);
-    return New;
-}
-
-void wypisz(Mapa *M){
+void write(Map *M){
     int i, j, a;
     for(i=0;i<M->rozmiar_x;i++)
         printf("+ - ");
@@ -311,7 +254,7 @@ void wypisz(Mapa *M){
     printf("\n");
 }
 
-void *zapisz(Mapa *M){
+void *save(Map *M){
     FILE *fout = fopen("board.txt", "w");
     int i, j;
 
@@ -328,10 +271,10 @@ void *zapisz(Mapa *M){
     fclose(fout);
 }
 
-Mapa *wczytaj(Mapa *M){
+Map *load(Map *M){
 
-    Mapa *New;
-    New = (Mapa*) malloc(sizeof(Mapa));
+    Map *New;
+    New = (Map*) malloc(sizeof(Map));
     FILE *fin = fopen("board.txt", "r");
     if(fin != NULL){
         int i, j;
@@ -339,8 +282,8 @@ Mapa *wczytaj(Mapa *M){
         fscanf(fin, "%d", &New->rozmiar_y);
         fscanf(fin, "%d", &New->delta_x);
         fscanf(fin, "%d", &New->delta_y);
-        // printf("New->rozmiar_x: %d (wczytaj)\n", New->rozmiar_x);
-        // printf("New->rozmiar_y: %d (wczytaj)\n", New->rozmiar_y);
+        // printf("New->rozmiar_x: %d (load)\n", New->rozmiar_x);
+        // printf("New->rozmiar_y: %d (load)\n", New->rozmiar_y);
         New->plansza = (int**) calloc(New->rozmiar_y, sizeof(int*));
         for(i=0;i<New->rozmiar_y;i++){
             New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
@@ -351,11 +294,11 @@ Mapa *wczytaj(Mapa *M){
             }
             // printf("\n");
         }
-        New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek)));
+        New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek) + 1));
         strcpy(New->kierunek, M->kierunek);
         New->x = M->x;
         New->y = M->y;
-        zwolnij_mape(M);
+        free_map(M);
         fclose(fin);
         return New;
     }
@@ -365,11 +308,18 @@ Mapa *wczytaj(Mapa *M){
     }    
 }
 
-void zwolnij_mape(Mapa *M)
+void free_map(Map *M)
 {       
     for(int i = 0; i < M->rozmiar_y; i++)
         free(M->plansza[i]);
     free(M->plansza);
     free(M->kierunek);
     free(M);
+}
+
+void free_area(Area *F)
+{
+    free(F->type);
+    free(F->dir);
+    free(F);
 }

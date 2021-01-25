@@ -11,7 +11,7 @@
 
 int getStartX(char *token)
 {
-    obszar *field = DJson_info(info(token));
+    Area *field = DJson_info(info(token));
     int start_x = field->x;
 
     return start_x;
@@ -19,7 +19,7 @@ int getStartX(char *token)
 
 int getStartY(char *token)
 {
-    obszar *field = DJson_info(info(token));
+    Area *field = DJson_info(info(token));
     int start_y = field->y;
 
     return start_y;
@@ -29,7 +29,7 @@ void moveToHit(char *token)
 {
     
     //printf("kzdnhzh\n");
-    obszar *field = DJson_info(info(token));
+    Area *field = DJson_info(info(token));
     int bufor_x = RANDOMNUMBER;
     int bufor_y = RANDOMNUMBER; 
     int i = 0;
@@ -65,7 +65,7 @@ void rotL_Move(char *token)
         explore(token);
     move(token);
         explore(token);
-        //obszar *field = DJson_info(info(token));
+        //Area *field = DJson_info(info(token));
 }
 
 void rotR_Move(char *token)
@@ -76,12 +76,12 @@ void rotR_Move(char *token)
     move(token);
     //printf("testrotrmove\n");
         //explore(token);
-        //obszar *field = DJson_info(info(token));
+        //Area *field = DJson_info(info(token));
 }
 
 // void rundkiL(char *token)
 // {
-//     obszar *field = DJson_info(info(token));
+//     Area *field = DJson_info(info(token));
 //     int bufor_x = RANDOMNUMBER;
 //     int bufor_y = RANDOMNUMBER;
 
@@ -93,13 +93,13 @@ void rotR_Move(char *token)
 //         printf("bufor_y = field->y = %d\n", bufor_y);
 
 //         rotL_Move(token);
-//         obszar *field = DJson_info(info(token));
+//         Area *field = DJson_info(info(token));
 //         printf("field->x po rotL_move = %d\n", field->x);
 //         printf("field->y po rotL_move = %d\n", field->y);
 //         while(bufor_x == field->x || bufor_y == field->y)
 //         {
 //             rotR_Move(token);
-//             obszar *field = DJson_info(info(token));
+//             Area *field = DJson_info(info(token));
 //             printf("field->x po rotR_move = %d\n", field->x);
 //             printf("field->x po rotR_move = %d\n", field->x);
 //         }
@@ -108,7 +108,7 @@ void rotR_Move(char *token)
 
 void rundkiL(char *token)
 {
-    obszar *field = DJson_info(info(token));
+    Area *field = DJson_info(info(token));
 
     int bufor_x;
     int bufor_y;
@@ -154,7 +154,7 @@ void rundkiL(char *token)
 
 void rundkiR(char *token)
 {
-    obszar *field = DJson_info(info(token));
+    Area *field = DJson_info(info(token));
     int bufor_x = RANDOMNUMBER;
     int bufor_y = RANDOMNUMBER;
     int start_x = field->x;

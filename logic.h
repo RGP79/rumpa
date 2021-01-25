@@ -1,11 +1,9 @@
+#ifndef logic_h
+#define logic_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#ifndef logic_h
-#define logic_h
-
-
 
 int getStartX(char *token);
 

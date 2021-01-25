@@ -1,13 +1,13 @@
 #ifndef mapa_h
+#define mapa_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include "APIdecoder.h"
 #define N 5
-#define mapa_h
 
-typedef struct _Mapa
+typedef struct _Map
 {
     int **plansza;
     int x;
@@ -18,44 +18,44 @@ typedef struct _Mapa
     int rozmiar_x;
     int rozmiar_y;
 
-} Mapa;
+} Map;
 
-Mapa * nowa(obszar *F);
+Map * new_map(Area *F);
 
-Mapa * nowa_reset(obszar *F);
+Map * tank_rot(Map *M, Area *F);
 
-Mapa * tank_rot(Mapa *M, obszar *F);
+Map * tank_move(Map *M, Area *F);
 
-Mapa * tank_move(Mapa *M, obszar *F);
+Map * tank_reset(Map *M, Area *F);
 
-Mapa * tank_reset(Mapa *M, obszar *F);
+Map * tank_exp(Map *M, Area3 *F);
 
-Mapa * tank_exp(Mapa *M, obszar3 *F);
+void write_inf_Map_exp(Area3 *Fe);
 
-void wyp_inf_Map_exp(obszar3 *Fe);
+void write_info_Map(Map *M, Area *F);
 
-void wypisz_info_Mapa(Mapa *M, obszar *F);
+void write(Map *M);
 
-void wypisz(Mapa *M);
+void *save(Map *M);
 
-void *zapisz(Mapa *M);
+Map *load(Map *M);
 
-Mapa *wczytaj(Mapa *M);
+int check_border(Map *M);
 
-int check_border(Mapa *M);
+Map * render(Map *M);
 
-Mapa * dopisz(Mapa *M);
+Map * render_N(Map *M);
 
-Mapa * dopisz_N(Mapa *M);
+Map * render_E(Map *M);
 
-Mapa * dopisz_E(Mapa *M);
+Map * render_S(Map *M);
 
-Mapa * dopisz_S(Mapa *M);
+Map * render_W(Map *M);
 
-Mapa * dopisz_W(Mapa *M);
+Map * offset(Map *M, Area *F);
 
-Mapa * offset(Mapa *M, obszar *F);
+void free_map(Map *M);
 
-void zwolnij_mape(Mapa *M);
+void free_area(Area *F);
 
 #endif

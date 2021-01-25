@@ -1,10 +1,10 @@
 all:
-	cc main.c serwer.c APIdecoder.c mapa.c logic.c -o main -lcurl ../../cJSON/cJSON.o -Wno-stringop-overflow
+	cc main.c serwer.c APIdecoder.c mapa.c logic.c -o main -lcurl ../../cJSON/cJSON.o
 
 test: all
 	./main qwerty_22
 
-test-mov:
+test-mov: all
 	./main qwerty_22 M
 
 test-exp:
@@ -23,7 +23,7 @@ test-bot: all
 	./main qwerty_22 bot
 
 test-gra-whole:
-	valgrind ./main qwerty_22 E M E M E M E M E M E M E M E M E M E Rright M E M E M E Rright M E M E M E Rleft M E M E Rleft M E M E M E Rright M E Rright Rright M Rleft M M Rleft M E Rright M E M E M E Rright M E Rleft M E M E M E M E Rleft M E Rleft M E Rleft M Rright M M M M M Rleft M M Rleft M E M E M E M E M E M E Rright M E M E M E
+	valgrind --leak-check=full ./main qwerty_22 E M E M E M E M E M E M E M E M E M E Rright M E M E M E Rright M E M E M E Rleft M E M E Rleft M E M E M E Rright M E Rright Rright M Rleft M M Rleft M E Rright M E M E M E Rright M E Rleft M E M E M E M E Rleft M E Rleft M E Rleft M Rright M M M M M Rleft M M Rleft M E M E M E M E M E M E Rright M E M E M E
 
 test-gra-whole-valgout:
 	./main qwerty_22 E M E M E M E M E M E M E M E M E M E Rright M E M E M E Rright M E M E M E Rleft M E M E Rleft M E M E M E Rright M E Rright Rright M Rleft M M Rleft M E Rright M E M E M E Rright M E Rleft M E M E M E M E Rleft M E Rleft M E Rleft M Rright M M M M M Rleft M M Rleft M E M E M E M E M E M E Rright M E M E M E

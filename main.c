@@ -16,69 +16,64 @@ int main(int argc, char **argv)
     char *bot="bot";
     token=argv[1];
     int i,j;
-    response1 = info(token);
-    obszar *F = DJson_info(response1);
-    free(response1);
-    Mapa *M = nowa(F);
 
     if(argc<3)
     {
-        response=wypisz_info(token);
+        response=info(token);
     }
     else
     {
         int i;
-        M = wczytaj(M);
+        response1 = info(token);
+        Area *F = DJson_info(response1);
+        free(response1);
+        Map *M = new_map(F);
+        free_area(F);
+        M = load(M);
         for(i=2;i<argc;i++)
         {
             if(strcmp(argv[i],mov)==0)
             {
                 printf("Wykonuję ruch.\n");
                 response=move(token);
-                obszar *field = DJson_info(response);
+                Area *field = DJson_info(response);
                 free(response);
                 M = tank_move(M, field);
-                wypisz_info_Mapa(M, field);
-                wypisz(M);
-                free(field->type);
-                free(field->dir);
-                free(field);
+                write_info_Map(M, field);
+                write(M);
+                free_area(field);
             }
             else if(strcmp(argv[i],rotL)==0)
             {
                 printf("Turning left\n");
                 response=rotatel(token, "left");
-                obszar *field = DJson_info(response);
+                Area *field = DJson_info(response);
                 free(response);
                 M = tank_rot(M, field);
-                wypisz_info_Mapa(M, field);
-                wypisz(M);
-                free(field->type);
-                free(field->dir);
-                free(field);
+                write_info_Map(M, field);
+                write(M);
+                free_area(field);
             }
             else if(strcmp(argv[i],rotR)==0)
             {
                 printf("Turning right\n");
                 response=rotate(token, "right");
-                obszar *field = DJson_info(response);
+                Area *field = DJson_info(response);
                 free(response);
                 M = tank_rot(M, field);
-                wypisz_info_Mapa(M, field);
-                wypisz(M);
-                free(field->type);
-                free(field->dir);
-                free(field);
+                write_info_Map(M, field);
+                write(M);
+                free_area(field);
             }
             else if(strcmp(argv[i],exp)==0)
             {
                 printf("Exlporing...\n\n");
                 response=explore(token);
-                obszar3 *fielde = DJson_explore(response);
+                Area3 *fielde = DJson_explore(response);
                 free(response);
                 M = tank_exp(M, fielde);
-                wyp_inf_Map_exp(fielde);
-                wypisz(M);
+                write_inf_Map_exp(fielde);
+                write(M);
                 for(int i=0;i<3;i++)
                 {
                     free(fielde->type[i]);
@@ -87,18 +82,17 @@ int main(int argc, char **argv)
             }
             else if(strcmp(argv[i],res)==0)
             {
+                free_map(M);
                 printf("Reseting world: %s\n\n",token);
                 response=reset(token);
-                obszar *field = DJson_info(response);
+                Area *field = DJson_info(response);
                 free(response);
-                M = nowa_reset(field);
+                M = new_map(field);
                 printf("field->type: %s\n", field->type);
                 M = tank_reset(M, field);
-                wypisz_info_Mapa(M, field);
-                wypisz(M);
-                free(field->type);
-                free(field->dir);
-                free(field);
+                write_info_Map(M, field);
+                write(M);
+                free_area(field);
             }
             else if(strcmp(argv[i],bot)==0)
             {
@@ -111,11 +105,11 @@ int main(int argc, char **argv)
                 exit(-1);
             }
             if((check_border(M)) == 0){
-                M = dopisz(M);
+                M = render(M);
             }
         }
-        zapisz(M);
-        zwolnij_mape(M);
+        save(M);
+        free_map(M);
     }
     
     return 0;

@@ -1,28 +1,26 @@
 #ifndef APIdecoder_h
+#define APIdecoder_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../../cJSON/cJSON.h"
-#define APIdecoder_h
 
-typedef struct _obszar
+typedef struct _Area
 {
     int x;
     int y;
     char *type;
     char *dir;
-} obszar;
+} Area;
 
-typedef struct _obszar3
+typedef struct _Area3
 {
     int x[3];
     int y[3];
     char *type[3];
-}   obszar3;
+}   Area3;
 
 char *info(char *token);
-
-void *wypisz_info(char *token);
 
 char *move(char *token);
 
@@ -34,8 +32,8 @@ char *explore(char *token);
 
 char *reset(char *token);
 
-obszar *DJson_info(char *response);
+Area *DJson_info(char *response);
 
-obszar3 *DJson_explore(char *response);
+Area3 *DJson_explore(char *response);
 
 #endif

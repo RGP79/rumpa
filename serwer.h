@@ -1,9 +1,9 @@
 #ifndef serwer_h
+#define serwer_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
-#define serwer_h
 
 typedef struct _Memory
 {
@@ -14,7 +14,5 @@ typedef struct _Memory
 static size_t write_callback(void *data, size_t size, size_t nmemb, void *userp);
 
 char *make_request(char *url);
-
-char *make_request_wypisz(char *url);
 
 #endif
