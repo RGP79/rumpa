@@ -278,32 +278,29 @@ Mapa * dopisz_W(Mapa *M)
 
 void wypisz(Mapa *M){
     int i, j, a;
-    // if(M->rozmiar_y <11)
-    //     printf(" ");
-    // else
-    //     printf("  ");
-    
     for(i=0;i<M->rozmiar_x;i++)
         printf("+ - ");
     printf("+\n");
 
     for(i=0;i<M->rozmiar_y;i++){
-    //     if(M->rozmiar_y<11)
-    //         printf("%d", (M->rozmiar_y - 1 - i));
-    //     else
-    //         printf("%d ", (M->rozmiar_y - 1 - i));
-
         for(j=0;j<M->rozmiar_x;j++){
             printf("| ");
-            printf("%c ", M->plansza[M->rozmiar_y - 1 - i][j]);
+            if((M->x == j) && (M->y == (M->rozmiar_y - 1 - i)))
+            {
+                if(strcmp(M->kierunek, "N")==0)
+                    printf("^ ");
+                if(strcmp(M->kierunek, "E")==0)
+                    printf("> ");
+                if(strcmp(M->kierunek, "S")==0)
+                    printf("v ");
+                if(strcmp(M->kierunek, "W")==0)
+                    printf("< ");
+            }
+            else
+                printf("%c ", M->plansza[M->rozmiar_y - 1 - i][j]);
         }
         printf("|%d", (M->rozmiar_y - 1 - i));
         printf("\n");
-
-        // if(M->rozmiar_y <11)
-        //     printf(" ");
-        // else
-        //     printf("  ");
         for(a=0;a<M->rozmiar_x;a++)
             printf("+ - ");
         printf("+");

@@ -1,8 +1,8 @@
+#ifndef serwer_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
-#ifndef serwer_h
 #define serwer_h
 
 typedef struct _Memory

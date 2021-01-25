@@ -1,10 +1,10 @@
+#ifndef mapa_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include "APIdecoder.h"
 #define N 5
-#ifndef mapa_h
 #define mapa_h
 
 typedef struct _Mapa

@@ -52,6 +52,7 @@ int main(int argc, char **argv)
                 free(response);
                 M = tank_rot(M, field);
                 wypisz_info_Mapa(M, field);
+                wypisz(M);
                 free(field->type);
                 free(field->dir);
                 free(field);
@@ -64,6 +65,7 @@ int main(int argc, char **argv)
                 free(response);
                 M = tank_rot(M, field);
                 wypisz_info_Mapa(M, field);
+                wypisz(M);
                 free(field->type);
                 free(field->dir);
                 free(field);
