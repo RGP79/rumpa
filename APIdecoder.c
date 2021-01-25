@@ -38,7 +38,7 @@ char *move(char *token)
     strcpy(url,url1);
     strncat(url,token,9);
     //printf("%s\n",url);
-    printf("Wykonuję ruch.\n\n");
+    // printf("Wykonuję ruch.\n\n");
     response=make_request(url);
     free(url);
     return response;

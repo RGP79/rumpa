@@ -4,7 +4,7 @@
 #include "logic.h"
 
 int main(int argc, char **argv)
-{    
+{
     char *token;
     char *response;
     char *response1;
@@ -13,14 +13,13 @@ int main(int argc, char **argv)
     char *rotR="Rright";
     char *exp="E";
     char *res="reset";
-    char *bot="bot";    
+    char *bot="bot";
     token=argv[1];
     int i,j;
     response1 = info(token);
     obszar *F = DJson_info(response1);
     free(response1);
     Mapa *M = nowa(F);
-
 
     if(argc<3)
     {
@@ -29,17 +28,17 @@ int main(int argc, char **argv)
     else
     {
         int i;
+        M = wczytaj(M);
         for(i=2;i<argc;i++)
         {
             if(strcmp(argv[i],mov)==0)
             {
-                M = wczytaj(M);
+                printf("Wykonuję ruch.\n");
                 response=move(token);
                 obszar *field = DJson_info(response);
                 free(response);
                 M = tank_move(M, field);
                 wypisz_info_Mapa(M, field);
-                zapisz(M);
                 wypisz(M);
                 free(field->type);
                 free(field->dir);
@@ -72,19 +71,17 @@ int main(int argc, char **argv)
             else if(strcmp(argv[i],exp)==0)
             {
                 printf("Exlporing...\n\n");
-                M = wczytaj(M);
                 response=explore(token);
                 obszar3 *fielde = DJson_explore(response);
                 free(response);
                 M = tank_exp(M, fielde);
                 wyp_inf_Map_exp(fielde);
                 wypisz(M);
-                zapisz(M);
                 for(int i=0;i<3;i++)
                 {
                     free(fielde->type[i]);
                 }
-                free(fielde);                
+                free(fielde);
             }
             else if(strcmp(argv[i],res)==0)
             {
@@ -92,10 +89,11 @@ int main(int argc, char **argv)
                 response=reset(token);
                 obszar *field = DJson_info(response);
                 free(response);
-                M = tank_move(M, field);
+                M = nowa_reset(field);
+                printf("field->type: %s\n", field->type);
+                M = tank_reset(M, field);
                 wypisz_info_Mapa(M, field);
                 wypisz(M);
-                zapisz(M);
                 free(field->type);
                 free(field->dir);
                 free(field);
@@ -109,14 +107,13 @@ int main(int argc, char **argv)
             {
                 printf("\nBłąd: nieznana komenda!\n");
                 exit(-1);
-            }            
-            if((check_border(M)) == 0){                 
-                M = dopisz(M);        
-                //wypisz(M);                
-                zapisz(M);               
             }
-        }        
-        zwolnij_mape(M);        
+            if((check_border(M)) == 0){
+                M = dopisz(M);
+            }
+        }
+        zapisz(M);
+        zwolnij_mape(M);
     }
     
     return 0;

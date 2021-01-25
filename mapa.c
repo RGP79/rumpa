@@ -27,6 +27,30 @@ Mapa * nowa(obszar *F){
     return M;
 }
 
+Mapa * nowa_reset(obszar *F){
+    int i, j;
+    Mapa *M;
+    M = (Mapa*) malloc(sizeof(Mapa));
+    M->rozmiar_x = N;
+    M->rozmiar_y = N;
+    M->delta_x = 1;
+    M->delta_y = 1;
+    M->x = F->x + M->delta_x;
+    M->y = F->y + M->delta_y;
+    M->kierunek = (char*) malloc(sizeof(char) * strlen((F->dir)));
+    strcpy(M->kierunek, F->dir);
+    M->plansza = (int**) calloc(M->rozmiar_y, sizeof(int*));
+    for(i=0; i<M->rozmiar_y; i++)
+    {
+        M->plansza[i] = (int*) calloc(M->rozmiar_x, sizeof(int));
+        for(j=0;j<M->rozmiar_x;j++)
+        {
+            M->plansza[i][j]=' ';
+        }
+    }
+    return M;
+}
+
 Mapa * tank_rot(Mapa *M, obszar *F)
 {
     Mapa *New = M;
@@ -42,6 +66,18 @@ Mapa * tank_move(Mapa *M, obszar *F)
     Mapa *New = M;
     New->x = F->x + M->delta_x;
     New->y = F->y + M->delta_y;
+    if(strcmp(F->type, "grass")==0)
+        New->plansza[New->y][New->x]='G';
+    if(strcmp(F->type, "sand")==0)
+        New->plansza[New->y][New->x]='S';
+    if(strcmp(F->type, "wall")==0)
+        New->plansza[New->y][New->x]='W';
+    return New;
+}
+
+Mapa * tank_reset(Mapa *M, obszar *F)
+{   
+    Mapa *New = M;
     if(strcmp(F->type, "grass")==0)
         New->plansza[New->y][New->x]='G';
     if(strcmp(F->type, "sand")==0)

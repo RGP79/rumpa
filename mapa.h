@@ -22,9 +22,13 @@ typedef struct _Mapa
 
 Mapa * nowa(obszar *F);
 
+Mapa * nowa_reset(obszar *F);
+
 Mapa * tank_rot(Mapa *M, obszar *F);
 
 Mapa * tank_move(Mapa *M, obszar *F);
+
+Mapa * tank_reset(Mapa *M, obszar *F);
 
 Mapa * tank_exp(Mapa *M, obszar3 *F);
 

@@ -4,11 +4,9 @@
 //eksploracja 44:00
 //odpowiednia ilosc skretow oznacza wewnetrzna lub zewnetrznaotoczke
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "APIdecoder.h"
 #include "logic.h"
+#include "mapa.h"
 #define RANDOMNUMBER 160
 
 int getStartX(char *token)
@@ -41,8 +39,9 @@ void moveToHit(char *token)
         //free(field);
         bufor_x = getStartX(token);
         bufor_y = getStartY(token);
-        printf("bufor_x = getstartx: %d\n", bufor_x);
-        printf("bufor_y = getstarty: %d\n", bufor_y);
+        // printf("bufor_x = getstartx: %d\n", bufor_x);
+        // printf("bufor_y = getstarty: %d\n", bufor_y);
+
         explore(token);
         move(token);
         //printf("test coorrupta\n");

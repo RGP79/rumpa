@@ -1,5 +1,5 @@
 all:
-	cc main.c serwer.c APIdecoder.c mapa.c logic.c -o main -lcurl ../../../../cJSON/cJSON/cJSON.o -Wno-stringop-overflow
+	cc main.c serwer.c APIdecoder.c mapa.c logic.c -o main -lcurl ../../cJSON/cJSON.o -Wno-stringop-overflow
 
 test: all
 	./main qwerty_22
