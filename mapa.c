@@ -34,7 +34,7 @@ Map * tank_rot(Map *M, Area *F)
     return New;
 }
 
-Map * tank_move(Map *M, Area *F)
+Map * tank_update(Map *M, Area *F)
 {   
     Map *New = M;
     New->x = F->x + M->delta_x;
@@ -47,18 +47,6 @@ Map * tank_move(Map *M, Area *F)
         New->plansza[New->y][New->x]='W';
     return New;
 }
-
-// Map * tank_reset(Map *M, Area *F)
-// {   
-//     Map *New = M;
-//     if(strcmp(F->type, "grass")==0)
-//         New->plansza[New->y][New->x]='G';
-//     if(strcmp(F->type, "sand")==0)
-//         New->plansza[New->y][New->x]='S';
-//     if(strcmp(F->type, "wall")==0)
-//         New->plansza[New->y][New->x]='W';
-//     return New;
-// }
 
 Map * tank_exp(Map *M, Area3 *Fe, Area *F)
 {    
@@ -214,7 +202,7 @@ Map * render(Map *M)
     }
     else
     {
-        printf("błąd funkcji render.\n");
+        printf("Error of funcion render[mapa.c].\n");
     }
     New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek) + 1));
     strcpy(New->kierunek, M->kierunek);
@@ -307,12 +295,12 @@ Map *load(Map *M){
     }
     else
     {
-        printf("Błąd: nie można odnaleźć pliku .txt\n");
+        printf("Error: can't find the .txt file\n");
     }    
 }
 
 void free_map(Map *M)
-{       
+{
     for(int i = 0; i < M->rozmiar_y; i++)
         free(M->plansza[i]);
     free(M->plansza);

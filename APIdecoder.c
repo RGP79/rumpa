@@ -1,14 +1,14 @@
 #include "APIdecoder.h"
 #include "serwer.h"
 
-char *info(char *token)
+char *info(char *token, int a)
 {
     char url[255]; 
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/info/";
     char *response;
     strcpy(url,url1);
     strncat(url,token,500);
-    response=make_request(url);
+    response=make_request(url, a);
     return response;
 }
 
@@ -20,8 +20,7 @@ char *move(char *token)
     strcpy(url,url1);
     strncat(url,token,500);
     //printf("%s\n",url);
-    // printf("Wykonuję ruch.\n\n");
-    response=make_request(url);
+    response=make_request(url, 0);
     return response;
 }
 
@@ -35,8 +34,7 @@ char *rotate(char *token, char *direction)
     strncat(url, "/", 10);
     strncat(url,direction,500);
     //printf("%s\n",url);
-    //     printf("Obracam się w prawo.\n\n");
-    response=make_request(url);
+    response=make_request(url, 0);
     return response;
 }
 
@@ -50,8 +48,7 @@ char *rotatel(char *token, char *direction)
     strncat(url, "/", 10);
     strncat(url,direction,500);
     //printf("%s\n",url);
-    //     printf("Obracam się w lewo.\n\n");
-    response=make_request(url);
+    response=make_request(url, 0);
     return response;
 }
 
@@ -62,7 +59,7 @@ char *explore(char *token){
     strcpy(url,url1);
     strncat(url,token,500);
     //printf("%s\n",url);
-    response=make_request(url);
+    response=make_request(url, 0);
     return response;
 }
 
@@ -73,7 +70,7 @@ char *reset(char *token){
     strcpy(url, url1);
     strncat(url,token,500);
     //printf("%s\n",url);    
-    response=make_request(url);
+    response=make_request(url, 0);
     return response;
 }
 

@@ -24,9 +24,7 @@ Map * new_map(Area *F);
 
 Map * tank_rot(Map *M, Area *F);
 
-Map * tank_move(Map *M, Area *F);
-
-// Map * tank_reset(Map *M, Area *F);
+Map * tank_update(Map *M, Area *F);
 
 Map * tank_exp(Map *M, Area3 *Fe, Area *F);
 

@@ -20,7 +20,7 @@ typedef struct _Area3
     char *type[3];
 }   Area3;
 
-char *info(char *token);
+char *info(char *token, int a);
 
 char *move(char *token);
 

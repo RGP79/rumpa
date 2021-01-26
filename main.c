@@ -19,12 +19,12 @@ int main(int argc, char **argv)
 
     if(argc<3)
     {
-        response=info(token);
+        response=info(token, 1);
     }
     else
     {
         int i;
-        response1 = info(token);
+        response1 = info(token, 0);
         Area *F = DJson_info(response1);
         free(response1);
         Map *M = new_map(F);
@@ -34,11 +34,11 @@ int main(int argc, char **argv)
         {
             if(strcmp(argv[i],mov)==0)
             {
-                printf("Wykonuję ruch.\n");
+                printf("Moving forward.\n");
                 response=move(token);
                 Area *field = DJson_info(response);
                 free(response);
-                M = tank_move(M, field);
+                M = tank_update(M, field);
                 write_info_Map(M, field);
                 write(M);
                 free_area(field);
@@ -71,16 +71,12 @@ int main(int argc, char **argv)
                 response=explore(token);
                 Area3 *fielde = DJson_explore(response);
                 free(response);
-                response1 = info(token);
+                response1 = info(token, 0);
                 Area *F = DJson_info(response1);
                 free(response1);                
-                printf("x: %d\n",M->x);
-                printf("y: %d\n",M->y);
                 M = tank_exp(M, fielde, F);
                 write_inf_Map_exp(fielde, M);
                 write(M);
-                printf("x: %d\n",M->x);
-                printf("y: %d\n",M->y);
                 for(int i=0;i<3;i++)
                 {
                     free(fielde->type[i]);
@@ -96,8 +92,7 @@ int main(int argc, char **argv)
                 Area *field = DJson_info(response);
                 free(response);
                 M = new_map(field);
-                printf("field->type: %s\n", field->type);
-                M = tank_move(M, field);
+                M = tank_update(M, field);
                 write_info_Map(M, field);
                 write(M);
                 free_area(field);
@@ -109,7 +104,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                printf("\nBłąd: nieznana komenda!\n");
+                printf("\nError: unknown command!\n");
                 exit(-1);
             }
             if((check_border(M)) == 0){

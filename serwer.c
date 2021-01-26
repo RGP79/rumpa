@@ -30,7 +30,7 @@ static size_t write_callback(void *data, size_t size, size_t nmemb, void *userp)
     return realsize;
 }
 
-char *make_request(char *url){
+char *make_request(char *url, int a){
     CURL *curl;
     CURLcode res;
     Memory chunk;
@@ -62,9 +62,9 @@ char *make_request(char *url){
 
         /* Sprawdzamy czy wystapił jakis błąd? */
         if (res != CURLE_OK){
-            fprintf(stderr, "Błąd! curl_easy_perform() niepowodzenie: %s\n", curl_easy_strerror(res));
+            fprintf(stderr, "Error! curl_easy_perform() failure: %s\n", curl_easy_strerror(res));
         }
-        else
+        else if(a==1)
         {
             printf("chunk response: %s", chunk.response);
         }
