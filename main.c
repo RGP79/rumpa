@@ -71,14 +71,22 @@ int main(int argc, char **argv)
                 response=explore(token);
                 Area3 *fielde = DJson_explore(response);
                 free(response);
-                M = tank_exp(M, fielde);
-                write_inf_Map_exp(fielde);
+                response1 = info(token);
+                Area *F = DJson_info(response1);
+                free(response1);                
+                printf("x: %d\n",M->x);
+                printf("y: %d\n",M->y);
+                M = tank_exp(M, fielde, F);
+                write_inf_Map_exp(fielde, M);
                 write(M);
+                printf("x: %d\n",M->x);
+                printf("y: %d\n",M->y);
                 for(int i=0;i<3;i++)
                 {
                     free(fielde->type[i]);
                 }
                 free(fielde);
+                free_area(F);
             }
             else if(strcmp(argv[i],res)==0)
             {
@@ -89,7 +97,7 @@ int main(int argc, char **argv)
                 free(response);
                 M = new_map(field);
                 printf("field->type: %s\n", field->type);
-                M = tank_reset(M, field);
+                M = tank_move(M, field);
                 write_info_Map(M, field);
                 write(M);
                 free_area(field);

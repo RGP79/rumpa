@@ -1,5 +1,5 @@
-//po zmianie delty nie aktualizują się funkcje rotacyjne.
 #include "mapa.h"
+//nie działa check border po dopisaniu na połódniu.
 Map * new_map(Area *F){
     int i, j;
     Map *M;
@@ -8,8 +8,6 @@ Map * new_map(Area *F){
     M->rozmiar_y = N;
     M->delta_x = 1;
     M->delta_y = 1;
-    M->x = F->x + M->delta_x;
-    M->y = F->y + M->delta_y;
     M->kierunek = (char*) malloc(sizeof(char) * strlen((F->dir) + 1));
     strcpy(M->kierunek, F->dir);
     M->plansza = (int**) calloc(M->rozmiar_y, sizeof(int*));
@@ -31,6 +29,8 @@ Map * tank_rot(Map *M, Area *F)
     // strcpy(New->kierunek, F->dir);
     New->kierunek = F->dir;
     // free(M->kierunek);
+    New->x = F->x + M->delta_x;
+    New->y = F->y + M->delta_y;
     return New;
 }
 
@@ -48,20 +48,21 @@ Map * tank_move(Map *M, Area *F)
     return New;
 }
 
-Map * tank_reset(Map *M, Area *F)
-{   
-    Map *New = M;
-    if(strcmp(F->type, "grass")==0)
-        New->plansza[New->y][New->x]='G';
-    if(strcmp(F->type, "sand")==0)
-        New->plansza[New->y][New->x]='S';
-    if(strcmp(F->type, "wall")==0)
-        New->plansza[New->y][New->x]='W';
-    return New;
-}
+// Map * tank_reset(Map *M, Area *F)
+// {   
+//     Map *New = M;
+//     if(strcmp(F->type, "grass")==0)
+//         New->plansza[New->y][New->x]='G';
+//     if(strcmp(F->type, "sand")==0)
+//         New->plansza[New->y][New->x]='S';
+//     if(strcmp(F->type, "wall")==0)
+//         New->plansza[New->y][New->x]='W';
+//     return New;
+// }
 
-Map * tank_exp(Map *M, Area3 *Fe)
+Map * tank_exp(Map *M, Area3 *Fe, Area *F)
 {    
+    printf("M->x: %d\n", M->x);
     for (int i = 0; i<3; i++){
         if(strcmp(Fe->type[i], "grass")==0)
         M->plansza[M->delta_y + Fe->y[i]][M->delta_x + Fe->x[i]]='G';
@@ -70,20 +71,22 @@ Map * tank_exp(Map *M, Area3 *Fe)
         if(strcmp(Fe->type[i], "wall")==0)
         M->plansza[M->delta_y + Fe->y[i]][M->delta_x + Fe->x[i]]='W';
     }
+    M->x = F->x + M->delta_x;
+    M->y = F->y + M->delta_y;
     return M;
 }
 
-void write_inf_Map_exp(Area3 *Fe)
+void write_inf_Map_exp(Area3 *Fe, Map *M)
 {
-    printf("x 1: %d\n",Fe->x[0]);
-    printf("y 1: %d\n",Fe->y[0]);
-    printf("Type of field 1: %s\n",Fe->type[0]);
-    printf("x 2: %d\n",Fe->x[1]);
-    printf("y 2: %d\n",Fe->y[1]);
+    printf("x 3: %d\n",(M->delta_x + Fe->x[0]));
+    printf("y 3: %d\n",(M->delta_y + Fe->y[0]));
+    printf("Type of field 3: %s\n",Fe->type[0]);
+    printf("x 2: %d\n",(M->delta_x + Fe->x[1]));
+    printf("y 2: %d\n",(M->delta_y + Fe->y[1]));
     printf("Type of field 2: %s\n",Fe->type[1]);
-    printf("x 3: %d\n",Fe->x[2]);
-    printf("y 3: %d\n",Fe->y[2]);
-    printf("Type of field 3: %s\n",Fe->type[2]);
+    printf("x 1: %d\n",(M->delta_x + Fe->x[2]));
+    printf("y 1: %d\n",(M->delta_y + Fe->y[2]));
+    printf("Type of field 1: %s\n",Fe->type[2]);
 }
 
 void write_info_Map(Map *M, Area *F)
@@ -296,8 +299,8 @@ Map *load(Map *M){
         }
         New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek) + 1));
         strcpy(New->kierunek, M->kierunek);
-        New->x = M->x;
-        New->y = M->y;
+        New->x = M->x + New->delta_x;
+        New->y = M->y + New->delta_y;
         free_map(M);
         fclose(fin);
         return New;

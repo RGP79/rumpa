@@ -26,11 +26,11 @@ Map * tank_rot(Map *M, Area *F);
 
 Map * tank_move(Map *M, Area *F);
 
-Map * tank_reset(Map *M, Area *F);
+// Map * tank_reset(Map *M, Area *F);
 
-Map * tank_exp(Map *M, Area3 *F);
+Map * tank_exp(Map *M, Area3 *Fe, Area *F);
 
-void write_inf_Map_exp(Area3 *Fe);
+void write_inf_Map_exp(Area3 *Fe, Map *M);
 
 void write_info_Map(Map *M, Area *F);
 
