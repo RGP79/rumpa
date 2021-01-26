@@ -98,7 +98,7 @@ Area *DJson_info(char *response)
             cJSON *field_type = cJSON_GetObjectItemCaseSensitive(payload, "field_type");
             cJSON *direction = cJSON_GetObjectItemCaseSensitive(payload, "direction");
 
-            a = malloc(sizeof(Area));
+            a = malloc(sizeof(Area) +1);
             a->x=current_x->valueint;        
             a->y=current_y->valueint;
             a->type = (char*) malloc(sizeof(char) * strlen((field_type->valuestring) + 1));
