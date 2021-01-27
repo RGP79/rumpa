@@ -22,6 +22,74 @@ Map * new_map(Area *F){
     return M;
 }
 
+void tank_move_whole(char *token, Map *M, int a)
+{
+    char *response;
+    response=move(token);
+    Area *field = DJson_info(response);
+    
+    M = tank_update(M, field);
+    if(a == 1)
+        write_info_Map(M, field);
+    write(M);
+    free_area(field);
+    free(response);
+}
+
+void tank_rot_whole(char *token, Map *M, int a, int b)
+{
+    char *response;
+    if(b == 1)
+        response=rotatel(token, "left");
+    else if(b == 2)
+        response=rotate(token, "right");
+    Area *field = DJson_info(response);
+    free(response);
+    M = tank_rot(M, field);
+    if(a == 1)
+        write_info_Map(M, field);
+    write(M);
+    free_area(field);
+}
+
+void tank_exp_whole(char *token, Map *M, int a)
+{
+    char *response;
+    char *response1;
+    response=explore(token);
+    Area3 *fielde = DJson_explore(response);
+    
+    response1 = info(token, 0);
+    Area *F = DJson_info(response1);
+
+    M = tank_exp(M, fielde, F);
+    if(a == 1)
+        write_inf_Map_exp(fielde, M);
+    write(M);
+    for(int i=0;i<3;i++)
+        free(fielde->type[i]);
+    free(fielde);
+    free_area(F);
+    free(response);
+    free(response1);
+}
+
+Map * tank_res_whole(char *token, Map *M, int a)
+{
+    char *response;
+    free_map(M);
+    response=reset(token);
+    Area *field = DJson_info(response);
+    free(response);
+    M = new_map(field);
+    M = tank_update(M, field);
+    if(a == 0)
+        write_info_Map(M, field);
+    write(M);
+    free_area(field);
+    return M;
+}
+
 Map * tank_rot(Map *M, Area *F)
 {
     Map *New = M;
@@ -50,7 +118,7 @@ Map * tank_update(Map *M, Area *F)
 
 Map * tank_exp(Map *M, Area3 *Fe, Area *F)
 {    
-    printf("M->x: %d\n", M->x);
+    // printf("M->x: %d\n", M->x);
     for (int i = 0; i<3; i++){
         if(strcmp(Fe->type[i], "grass")==0)
         M->plansza[M->delta_y + Fe->y[i]][M->delta_x + Fe->x[i]]='G';
@@ -207,7 +275,7 @@ Map * render(Map *M)
     New->kierunek = (char*) malloc(sizeof(char) * strlen((M->kierunek) + 1));
     strcpy(New->kierunek, M->kierunek);
     free_map(M);
-    return New;    
+    return New;
 }
 
 void write(Map *M){

@@ -7,109 +7,74 @@ int main(int argc, char **argv)
 {
     char *token;
     char *response;
-    char *response1;
     char *mov="M";
     char *rotL="Rleft";
     char *rotR="Rright";
     char *exp="E";
     char *res="reset";
     char *bot="bot";
-    token=argv[1];
     int i,j;
+    token=argv[1];
 
     if(argc<3)
     {
         response=info(token, 1);
+        free(response);
     }
     else
     {
         int i;
-        response1 = info(token, 0);
-        Area *F = DJson_info(response1);
-        free(response1);
+        response = info(token, 0);
+        Area *F = DJson_info(response);
+        free(response);
         Map *M = new_map(F);
         free_area(F);
         M = load(M);
-        for(i=2;i<argc;i++)
+        if(strcmp(argv[2],bot)!=0)
         {
-            if(strcmp(argv[i],mov)==0)
+            for(i=2;i<argc;i++)
             {
-                printf("Moving forward.\n");
-                response=move(token);
-                Area *field = DJson_info(response);
-                free(response);
-                M = tank_update(M, field);
-                write_info_Map(M, field);
-                write(M);
-                free_area(field);
-            }
-            else if(strcmp(argv[i],rotL)==0)
-            {
-                printf("Turning left\n");
-                response=rotatel(token, "left");
-                Area *field = DJson_info(response);
-                free(response);
-                M = tank_rot(M, field);
-                write_info_Map(M, field);
-                write(M);
-                free_area(field);
-            }
-            else if(strcmp(argv[i],rotR)==0)
-            {
-                printf("Turning right\n");
-                response=rotate(token, "right");
-                Area *field = DJson_info(response);
-                free(response);
-                M = tank_rot(M, field);
-                write_info_Map(M, field);
-                write(M);
-                free_area(field);
-            }
-            else if(strcmp(argv[i],exp)==0)
-            {
-                printf("Exlporing...\n\n");
-                response=explore(token);
-                Area3 *fielde = DJson_explore(response);
-                free(response);
-                response1 = info(token, 0);
-                Area *F = DJson_info(response1);
-                free(response1);                
-                M = tank_exp(M, fielde, F);
-                write_inf_Map_exp(fielde, M);
-                write(M);
-                for(int i=0;i<3;i++)
+                if(strcmp(argv[i],mov)==0)
                 {
-                    free(fielde->type[i]);
+                    printf("Moving forward.\n");
+                    tank_move_whole(token, M, 1);
                 }
-                free(fielde);
-                free_area(F);
+                else if(strcmp(argv[i],rotL)==0)
+                {
+                    printf("Turning left\n");
+                    tank_rot_whole(token, M, 1, 1);
+                }
+                else if(strcmp(argv[i],rotR)==0)
+                {
+                    printf("Turning right\n");
+                    tank_rot_whole(token, M, 1, 2);
+                }
+                else if(strcmp(argv[i],exp)==0)
+                {
+                    printf("Exlporing...\n\n");
+                    tank_exp_whole(token, M, 1);
+                }
+                else if(strcmp(argv[i],res)==0)
+                {
+                    printf("Reseting world: %s\n\n",token);
+                    M = tank_res_whole(token, M, 1);
+                }
+                else
+                {
+                    printf("\nError: unknown command!\n");
+                    exit(-1);
+                }
+                if((check_border(M)) == 0)
+                {
+                    M = render(M);
+                }
             }
-            else if(strcmp(argv[i],res)==0)
-            {
-                free_map(M);
-                printf("Reseting world: %s\n\n",token);
-                response=reset(token);
-                Area *field = DJson_info(response);
-                free(response);
-                M = new_map(field);
-                M = tank_update(M, field);
-                write_info_Map(M, field);
-                write(M);
-                free_area(field);
-            }
-            else if(strcmp(argv[i],bot)==0)
-            {
-                moveToHit(token);
-                rundkiL(token);
-            }
-            else
-            {
-                printf("\nError: unknown command!\n");
-                exit(-1);
-            }
-            if((check_border(M)) == 0){
-                M = render(M);
-            }
+        }
+        else if(strcmp(argv[2],bot)==0)
+        {
+            M = moveToHit(token, M);
+            M = roundsL(token, M);
+
         }
         save(M);
         free_map(M);

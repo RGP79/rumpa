@@ -3,20 +3,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+#include "mapa.h"
+#include "APIdecoder.h"
 
 int getStartX(char *token);
 
 int getStartY(char *token);
 
-void moveToHit(char *token);
+Map * moveToHit(char *token, Map *M);
 
-void rotL_Move(char *token);
+Map * rotL_Move(char *token, Map *M);
 
-void rotR_Move(char *token);
+Map * rotR_Move(char *token, Map *M);
 
-void rundkiL(char *token);
-
-void rundkiR(char *token);
+Map * roundsL(char *token, Map *M);
 
 #endif

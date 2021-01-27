@@ -53,7 +53,7 @@ char *rotatel(char *token, char *direction)
 }
 
 char *explore(char *token){
-    char url[255]; 
+    char url[255];
     char *url1="http://edi.iem.pw.edu.pl:30000/worlds/api/v1/worlds/explore/";
     char *response;
     strcpy(url,url1);

@@ -22,6 +22,14 @@ typedef struct _Map
 
 Map * new_map(Area *F);
 
+void tank_move_whole(char *token, Map *M, int a);
+
+void tank_rot_whole(char *token, Map *M, int a, int b);
+
+void tank_exp_whole(char *token, Map *M, int a);
+
+Map * tank_res_whole(char *token, Map *M, int a);
+
 Map * tank_rot(Map *M, Area *F);
 
 Map * tank_update(Map *M, Area *F);
@@ -41,16 +49,6 @@ Map *load(Map *M);
 int check_border(Map *M);
 
 Map * render(Map *M);
-
-Map * render_N(Map *M);
-
-Map * render_E(Map *M);
-
-Map * render_S(Map *M);
-
-Map * render_W(Map *M);
-
-Map * offset(Map *M, Area *F);
 
 void free_map(Map *M);
 
