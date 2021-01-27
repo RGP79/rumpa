@@ -5,7 +5,7 @@ int getStartX(char *token)
 {
     char *response;
     response = info(token, 0);
-    Area *field = DJson_info(response);
+    Area *field = DJson_info(response, 0);
     free(response);
     int start_x = field->x;
     free_area(field);
@@ -17,7 +17,7 @@ int getStartY(char *token)
 {
     char *response;
     response = info(token, 0);
-    Area *field = DJson_info(response);
+    Area *field = DJson_info(response, 0);
     free(response);
     int start_y = field->y;
     free_area(field);
@@ -29,7 +29,7 @@ Map * moveToHit(char *token, Map *M)
 {
     char *response;
     response = info(token, 0);
-    Area *field = DJson_info(response);
+    Area *field = DJson_info(response, 0);
     free(response);
     int bufor_x = RANDOMNUMBER;
     int bufor_y = RANDOMNUMBER; 
@@ -50,7 +50,7 @@ Map * moveToHit(char *token, Map *M)
         free_area(field);
         char *response1;
         response1 = info(token, 0);
-        field = DJson_info(response1);
+        field = DJson_info(response1, 0);
         free(response1);
     }
     free_area(field);
@@ -96,7 +96,7 @@ Map * roundsL(char *token, Map *M)
     char *response1;
     char *response;
     response1 = info(token, 0);
-    Area *field = DJson_info(response1);
+    Area *field = DJson_info(response1, 0);
     free(response1);
     int i = 0;
 
@@ -116,7 +116,7 @@ Map * roundsL(char *token, Map *M)
 
         free_area(field);
         response = info(token, 0);
-        field = DJson_info(response);
+        field = DJson_info(response, 0);
         free(response);
         
         for(bufor_x, field->x, bufor_y, field->y; bufor_x == field->x && bufor_y == field->y; NULL)
@@ -124,7 +124,7 @@ Map * roundsL(char *token, Map *M)
             free_area(field);
             M = rotR_Move(token, M);
             response = info(token, 0);
-            field = DJson_info(response);
+            field = DJson_info(response, 0);
             free(response);
         }
         fx = field->x;

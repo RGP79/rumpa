@@ -74,7 +74,7 @@ char *reset(char *token){
     return response;
 }
 
-Area *DJson_info(char *response)
+Area *DJson_info(char *response, int b)
 {
     Area *a;
     const cJSON *status = NULL;

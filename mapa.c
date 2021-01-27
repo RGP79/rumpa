@@ -26,7 +26,7 @@ void tank_move_whole(char *token, Map *M, int a)
 {
     char *response;
     response=move(token);
-    Area *field = DJson_info(response);
+    Area *field = DJson_info(response, 0);
     
     M = tank_update(M, field);
     if(a == 1)
@@ -43,7 +43,7 @@ void tank_rot_whole(char *token, Map *M, int a, int b)
         response=rotatel(token, "left");
     else if(b == 2)
         response=rotate(token, "right");
-    Area *field = DJson_info(response);
+    Area *field = DJson_info(response, 1);
     free(response);
     M = tank_rot(M, field);
     if(a == 1)
@@ -60,7 +60,7 @@ void tank_exp_whole(char *token, Map *M, int a)
     Area3 *fielde = DJson_explore(response);
     
     response1 = info(token, 0);
-    Area *F = DJson_info(response1);
+    Area *F = DJson_info(response1, 0);
 
     M = tank_exp(M, fielde, F);
     if(a == 1)
@@ -79,7 +79,7 @@ Map * tank_res_whole(char *token, Map *M, int a)
     char *response;
     free_map(M);
     response=reset(token);
-    Area *field = DJson_info(response);
+    Area *field = DJson_info(response, 0);
     free(response);
     M = new_map(field);
     M = tank_update(M, field);
@@ -183,7 +183,7 @@ Map * render(Map *M)
     if(strcmp(M->kierunek, "N")==0)
     {
         New->rozmiar_x = M->rozmiar_x;
-        New->rozmiar_y = M->rozmiar_y*2;  
+        New->rozmiar_y = M->rozmiar_y*2;
         New->plansza = (int**) calloc(New->rozmiar_y , sizeof(int*));
         for(i=0; i<New->rozmiar_y; i++){ 
             New->plansza[i] = (int*) calloc(New->rozmiar_x, sizeof(int));
@@ -289,17 +289,32 @@ void write(Map *M){
             printf("| ");
             if((M->x == j) && (M->y == (M->rozmiar_y - 1 - i)))
             {
+                if(M->plansza[M->rozmiar_y - 1 - i][j] == 'G')
+                    printf(ANSI_COLOR_GREEN);
+                else if(M->plansza[M->rozmiar_y - 1 - i][j] == 'S')
+                    printf(ANSI_COLOR_YELLOW);
                 if(strcmp(M->kierunek, "N")==0)
                     printf("^ ");
-                if(strcmp(M->kierunek, "E")==0)
+                else if(strcmp(M->kierunek, "E")==0)
                     printf("> ");
-                if(strcmp(M->kierunek, "S")==0)
+                else if(strcmp(M->kierunek, "S")==0)
                     printf("v ");
-                if(strcmp(M->kierunek, "W")==0)
+                else if(strcmp(M->kierunek, "W")==0)
                     printf("< ");
+                printf(ANSI_COLOR_RESET);
             }
-            else
-                printf("%c ", M->plansza[M->rozmiar_y - 1 - i][j]);
+            else{
+                if(M->plansza[M->rozmiar_y - 1 - i][j] == 'G')
+                    printf(ANSI_COLOR_GREEN "G " ANSI_COLOR_RESET);
+                else if(M->plansza[M->rozmiar_y - 1 - i][j] == 'W')
+                    printf(ANSI_COLOR_RED "W " ANSI_COLOR_RESET);
+                else if(M->plansza[M->rozmiar_y - 1 - i][j] == 'S')
+                    printf(ANSI_COLOR_YELLOW "S " ANSI_COLOR_RESET);
+                else if(M->plansza[M->rozmiar_y - 1 - i][j] == ' ')
+                    printf("  ");
+
+            }
+                // printf("%c ", M->plansza[M->rozmiar_y - 1 - i][j]);
         }
         printf("|%d", (M->rozmiar_y - 1 - i));
         printf("\n");

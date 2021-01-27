@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     {
         int i;
         response = info(token, 0);
-        Area *F = DJson_info(response);
+        Area *F = DJson_info(response, 0);
         free(response);
         Map *M = new_map(F);
         free_area(F);

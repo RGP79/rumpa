@@ -32,7 +32,7 @@ char *explore(char *token);
 
 char *reset(char *token);
 
-Area *DJson_info(char *response);
+Area *DJson_info(char *response, int b);
 
 Area3 *DJson_explore(char *response);
 
