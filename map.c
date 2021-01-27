@@ -280,6 +280,7 @@ Map * render(Map *M)
 
 void write(Map *M){
     int i, j, a;
+    printf(ANSI_COLOR_CYAN);
     for(i=0;i<M->rozmiar_x;i++)
         printf("+ - ");
     printf("+\n");
@@ -301,15 +302,15 @@ void write(Map *M){
                     printf("v ");
                 else if(strcmp(M->kierunek, "W")==0)
                     printf("< ");
-                printf(ANSI_COLOR_RESET);
+                printf(ANSI_COLOR_CYAN);
             }
             else{
                 if(M->plansza[M->rozmiar_y - 1 - i][j] == 'G')
-                    printf(ANSI_COLOR_GREEN "G " ANSI_COLOR_RESET);
+                    printf(ANSI_COLOR_GREEN "G " ANSI_COLOR_CYAN);
                 else if(M->plansza[M->rozmiar_y - 1 - i][j] == 'W')
-                    printf(ANSI_COLOR_RED "W " ANSI_COLOR_RESET);
+                    printf(ANSI_COLOR_RED "W " ANSI_COLOR_CYAN);
                 else if(M->plansza[M->rozmiar_y - 1 - i][j] == 'S')
-                    printf(ANSI_COLOR_YELLOW "S " ANSI_COLOR_RESET);
+                    printf(ANSI_COLOR_YELLOW "S " ANSI_COLOR_CYAN);
                 else if(M->plansza[M->rozmiar_y - 1 - i][j] == ' ')
                     printf("  ");
 
@@ -326,6 +327,7 @@ void write(Map *M){
     for(i=0;i<M->rozmiar_x; i++)
         printf("%3d ", i);
     printf("\n");
+    printf(ANSI_COLOR_RESET);
 }
 
 void *save(Map *M){
